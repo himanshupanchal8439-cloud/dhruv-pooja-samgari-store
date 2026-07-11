@@ -18,6 +18,7 @@ const activityLogRoutes = require('./routes/activityLogRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
 const uploadRoutes = require('./routes/uploadRoutes');
 const userRoutes = require('./routes/userRoutes');
+const reviewRoutes = require('./routes/reviewRoutes');
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use('/static', express.static('public'));
 app.get('/api/health', (req, res) => res.json({ status: 'ok' }));
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
+app.use('/api/products', reviewRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/coupons', couponRoutes);

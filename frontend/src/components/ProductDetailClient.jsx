@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCart } from '../context/CartContext';
+import ProductReviews from './ProductReviews';
 
 export default function ProductDetailClient({ product }) {
   const [quantity, setQuantity] = useState(1);
@@ -27,7 +28,8 @@ export default function ProductDetailClient({ product }) {
   const active = media[activeIndex] || media[0];
 
   return (
-    <section className="section product-detail">
+    <>
+      <section className="section product-detail">
       <div className="product-gallery">
         {active.type === 'video' ? (
           <video className="product-detail-image" src={active.url} controls />
@@ -68,6 +70,18 @@ export default function ProductDetailClient({ product }) {
 
       <div className="product-detail-info">
         <h1>{product.name}</h1>
+        {product.ratingCount > 0 && (
+          <div className="product-rating-row">
+            <span className="review-stars">
+              {Array.from({ length: 5 }, (_, i) => (
+                <i key={i} className={`fa-solid fa-star ${i < Math.round(product.ratingAverage) ? 'filled' : ''}`} />
+              ))}
+            </span>
+            <span>
+              {product.ratingAverage.toFixed(1)} ({product.ratingCount} review{product.ratingCount === 1 ? '' : 's'})
+            </span>
+          </div>
+        )}
         <div className="price-row">
           <span className="price">₹{product.price}</span>
           {product.compareAtPrice > product.price && <span className="mrp">₹{product.compareAtPrice}</span>}
@@ -117,6 +131,9 @@ export default function ProductDetailClient({ product }) {
           <img src={active.url} alt={product.name} onClick={(e) => e.stopPropagation()} />
         </div>
       )}
-    </section>
+      </section>
+
+      <ProductReviews slug={product.slug} ratingAverage={product.ratingAverage} ratingCount={product.ratingCount} />
+    </>
   );
 }

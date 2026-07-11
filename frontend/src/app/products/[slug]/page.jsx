@@ -43,5 +43,33 @@ export default async function ProductDetailPage({ params }) {
   const product = await getProduct(slug);
   if (!product) notFound();
 
-  return <ProductDetailClient product={product} />;
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.name,
+    description: product.description,
+    image: product.images,
+    sku: product._id,
+    offers: {
+      '@type': 'Offer',
+      priceCurrency: 'INR',
+      price: product.price,
+      availability: product.stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+      url: `https://dhruv-pooja-samagri.vercel.app/products/${slug}`,
+    },
+    ...(product.ratingCount > 0 && {
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: product.ratingAverage,
+        reviewCount: product.ratingCount,
+      },
+    }),
+  };
+
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <ProductDetailClient product={product} />
+    </>
+  );
 }
