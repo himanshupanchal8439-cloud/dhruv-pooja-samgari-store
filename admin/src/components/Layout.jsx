@@ -8,6 +8,7 @@ const links = [
   { to: '/categories', label: 'Categories', roles: ['admin'] },
   { to: '/orders', label: 'Orders', roles: ['admin', 'staff'] },
   { to: '/customers', label: 'Customers', roles: ['admin', 'staff'] },
+  { to: '/blog', label: 'Blog', roles: ['admin', 'staff'] },
   { to: '/coupons', label: 'Coupons', roles: ['admin'] },
   { to: '/activity-logs', label: 'Activity Logs', roles: ['admin'] },
 ];

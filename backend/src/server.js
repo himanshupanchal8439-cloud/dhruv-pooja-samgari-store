@@ -19,6 +19,7 @@ const paymentRoutes = require('./routes/paymentRoutes');
 const uploadRoutes = require('./routes/uploadRoutes');
 const userRoutes = require('./routes/userRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
+const blogRoutes = require('./routes/blogRoutes');
 
 const app = express();
 
@@ -43,6 +44,7 @@ app.use('/api/activity-logs', activityLogRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/uploads', uploadRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/blog', blogRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

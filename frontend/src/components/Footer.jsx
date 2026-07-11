@@ -52,6 +52,9 @@ export default function Footer() {
               <li>
                 <Link href="/products">Astrology Services</Link>
               </li>
+              <li>
+                <Link href="/blog">Puja Guides &amp; Blog</Link>
+              </li>
             </ul>
           </div>
 

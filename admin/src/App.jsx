@@ -11,6 +11,7 @@ import OrderDetail from './pages/OrderDetail';
 import Customers from './pages/Customers';
 import Coupons from './pages/Coupons';
 import ActivityLogs from './pages/ActivityLogs';
+import Blog from './pages/Blog';
 import './App.css';
 
 export default function App() {
@@ -39,6 +40,7 @@ export default function App() {
             <Route path="/orders" element={<Orders />} />
             <Route path="/orders/:id" element={<OrderDetail />} />
             <Route path="/customers" element={<Customers />} />
+            <Route path="/blog" element={<Blog />} />
             <Route
               path="/coupons"
               element={
