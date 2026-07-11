@@ -1,20 +1,23 @@
+'use client';
+
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '../../context/AuthContext';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const { login } = useAuth();
-  const navigate = useNavigate();
+  const router = useRouter();
 
   async function handleSubmit(e) {
     e.preventDefault();
     setError('');
     try {
       await login(email, password);
-      navigate('/');
+      router.push('/');
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed');
     }
@@ -37,7 +40,7 @@ export default function Login() {
           </button>
         </form>
         <p className="auth-footer-text">
-          New here? <Link to="/register">Create an account</Link>
+          New here? <Link href="/register">Create an account</Link>
         </p>
       </div>
     </section>

@@ -1,9 +1,9 @@
+'use client';
+
 import { useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
 
 const services = [
   {
@@ -35,6 +35,8 @@ export default function AstrologySection() {
   const cardRefs = useRef([]);
 
   useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+
     const container = starsRef.current;
     for (let i = 0; i < 50; i++) {
       const star = document.createElement('div');
@@ -143,7 +145,7 @@ export default function AstrologySection() {
                 <h3>{s.title}</h3>
                 <p>{s.text}</p>
                 {s.link ? (
-                  <Link to={s.link} className="astro-link">
+                  <Link href={s.link} className="astro-link">
                     {s.cta} <i className="fa-solid fa-arrow-right" />
                   </Link>
                 ) : (

@@ -1,19 +1,22 @@
+'use client';
+
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '../../context/AuthContext';
 
 export default function Register() {
   const [form, setForm] = useState({ name: '', email: '', password: '', phone: '' });
   const [error, setError] = useState('');
   const { register } = useAuth();
-  const navigate = useNavigate();
+  const router = useRouter();
 
   async function handleSubmit(e) {
     e.preventDefault();
     setError('');
     try {
       await register(form.name, form.email, form.password, form.phone);
-      navigate('/');
+      router.push('/');
     } catch (err) {
       setError(err.response?.data?.message || 'Registration failed');
     }
@@ -38,7 +41,7 @@ export default function Register() {
           </button>
         </form>
         <p className="auth-footer-text">
-          Already have an account? <Link to="/login">Login</Link>
+          Already have an account? <Link href="/login">Login</Link>
         </p>
       </div>
     </section>

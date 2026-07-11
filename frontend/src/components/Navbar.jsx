@@ -1,5 +1,8 @@
+'use client';
+
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import api from '../api/client';
@@ -10,7 +13,7 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const { count } = useCart();
   const { user, logout } = useAuth();
-  const navigate = useNavigate();
+  const router = useRouter();
 
   useEffect(() => {
     api.get('/categories').then((res) => setCategories(res.data));
@@ -18,7 +21,7 @@ export default function Navbar() {
 
   function handleSearch(e) {
     e.preventDefault();
-    navigate(`/products?search=${encodeURIComponent(query)}`);
+    router.push(`/products?search=${encodeURIComponent(query)}`);
     setMenuOpen(false);
   }
 
@@ -27,13 +30,13 @@ export default function Navbar() {
       <nav className="glass-nav-3d">
         <div className="nav-links-left">
           {categories.slice(0, 3).map((c) => (
-            <Link key={c._id} to={`/products?category=${c._id}`} className="nav-chip">
+            <Link key={c._id} href={`/products?category=${c._id}`} className="nav-chip">
               <i className="fa-solid fa-fire" /> {c.name}
             </Link>
           ))}
         </div>
 
-        <Link to="/" className="brand-3d">
+        <Link href="/" className="brand-3d">
           <span className="brand-title">Dhruv Pooja</span>
           <span className="brand-sub">Samagri Store</span>
         </Link>
@@ -44,17 +47,17 @@ export default function Navbar() {
           </button>
 
           {user ? (
-            <Link to="/account/profile" className="nav-item-3d nav-icon-btn nav-user-btn" aria-label="My Account">
+            <Link href="/account/profile" className="nav-item-3d nav-icon-btn nav-user-btn" aria-label="My Account">
               <i className="fa-regular fa-user" />
               <span className="nav-user-name">{user.name?.split(' ')[0]}</span>
             </Link>
           ) : (
-            <Link to="/login" className="nav-item-3d nav-icon-btn" aria-label="Login">
+            <Link href="/login" className="nav-item-3d nav-icon-btn" aria-label="Login">
               <i className="fa-regular fa-user" />
             </Link>
           )}
 
-          <Link to="/cart" className="btn-gold-3d cart-btn">
+          <Link href="/cart" className="btn-gold-3d cart-btn">
             <i className="fa-solid fa-bag-shopping" />
             <span className="cart-label">Cart</span>
             {count > 0 && <span className="cart-badge">{count}</span>}

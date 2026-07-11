@@ -1,5 +1,7 @@
+'use client';
+
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 export default function Footer() {
   const [email, setEmail] = useState('');
@@ -39,16 +41,16 @@ export default function Footer() {
             <h4>Sacred Collections</h4>
             <ul>
               <li>
-                <Link to="/products">Temple Idols</Link>
+                <Link href="/products">Temple Idols</Link>
               </li>
               <li>
-                <Link to="/products">Rudraksha Malas</Link>
+                <Link href="/products">Rudraksha Malas</Link>
               </li>
               <li>
-                <Link to="/products">Divine Samagri</Link>
+                <Link href="/products">Divine Samagri</Link>
               </li>
               <li>
-                <Link to="/products">Astrology Services</Link>
+                <Link href="/products">Astrology Services</Link>
               </li>
             </ul>
           </div>
@@ -57,7 +59,7 @@ export default function Footer() {
             <h4>Support</h4>
             <ul>
               <li>
-                <Link to="/account/orders">Track Order</Link>
+                <Link href="/account/orders">Track Order</Link>
               </li>
               <li>
                 <a href="#">Shipping Policy</a>

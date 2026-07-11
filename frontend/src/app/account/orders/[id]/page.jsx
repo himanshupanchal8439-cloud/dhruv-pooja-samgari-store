@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import api from '../api/client';
+'use client';
+
+import { use, useEffect, useState } from 'react';
+import api from '../../../../api/client';
 
 const trackSteps = [
   { key: 'pending', label: 'Order Placed', icon: 'fa-file-invoice' },
@@ -37,15 +38,15 @@ function OrderTracker({ status, createdAt }) {
   );
 }
 
-export default function OrderDetail() {
-  const { id } = useParams();
+export default function OrderDetail({ params }) {
+  const { id } = use(params);
   const [order, setOrder] = useState(null);
 
   useEffect(() => {
     api.get(`/orders/${id}`).then((res) => setOrder(res.data));
   }, [id]);
 
-  if (!order) return <p className="section">Loading...</p>;
+  if (!order) return <p className="section page-loading">Loading...</p>;
 
   return (
     <section className="section">

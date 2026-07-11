@@ -1,7 +1,9 @@
+'use client';
+
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import api from '../api/client';
+import Link from 'next/link';
+import { useAuth } from '../../../context/AuthContext';
+import api from '../../../api/client';
 
 const emptyAddress = { label: '', line1: '', line2: '', city: '', state: '', pincode: '', isDefault: false };
 
@@ -17,7 +19,7 @@ export default function Profile() {
   const [addressForm, setAddressForm] = useState(emptyAddress);
   const [addressError, setAddressError] = useState('');
 
-  if (!user) return <p className="section">Loading...</p>;
+  if (!user) return <p className="section page-loading">Loading...</p>;
 
   async function handleProfileSave(e) {
     e.preventDefault();
@@ -83,7 +85,7 @@ export default function Profile() {
 
       <div className="profile-nav">
         <span className="profile-nav-item active">Profile</span>
-        <Link to="/account/orders" className="profile-nav-item">
+        <Link href="/account/orders" className="profile-nav-item">
           My Orders
         </Link>
       </div>

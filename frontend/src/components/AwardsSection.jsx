@@ -1,8 +1,8 @@
+'use client';
+
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
 
 const awards = [
   {
@@ -24,6 +24,8 @@ export default function AwardsSection() {
   const sectionRef = useRef();
 
   useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+
     const ctx = gsap.context(() => {
       gsap.from('.gallery-card', {
         scrollTrigger: { trigger: sectionRef.current, start: 'top 85%' },

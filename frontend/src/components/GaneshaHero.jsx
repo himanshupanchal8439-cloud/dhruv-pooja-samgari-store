@@ -1,5 +1,7 @@
+'use client';
+
 import { useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import gsap from 'gsap';
 
 export default function GaneshaHero() {
@@ -155,7 +157,7 @@ export default function GaneshaHero() {
           Experience the purity of authentic rituals with our handcrafted premium idols, sacred yantras, and pure
           puja samagri.
         </p>
-        <Link to="/products" className="hero-cta btn-gold-3d">
+        <Link href="/products" className="hero-cta btn-gold-3d">
           Shop Sacred Collection <i className="fa-solid fa-arrow-right" />
         </Link>
       </div>

@@ -1,16 +1,22 @@
+'use client';
+
 import { createContext, useContext, useEffect, useState } from 'react';
 
 const CartContext = createContext(null);
 
 export function CartProvider({ children }) {
-  const [items, setItems] = useState(() => {
-    const saved = localStorage.getItem('cart');
-    return saved ? JSON.parse(saved) : [];
-  });
+  const [items, setItems] = useState([]);
+  const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(items));
-  }, [items]);
+    const saved = localStorage.getItem('cart');
+    if (saved) setItems(JSON.parse(saved));
+    setHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    if (hydrated) localStorage.setItem('cart', JSON.stringify(items));
+  }, [items, hydrated]);
 
   function addItem(product, quantity = 1, variant = null) {
     setItems((prev) => {

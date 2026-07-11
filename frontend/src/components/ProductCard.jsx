@@ -1,5 +1,7 @@
+'use client';
+
 import { useRef } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import gsap from 'gsap';
 
 export default function ProductCard({ product }) {
@@ -40,7 +42,7 @@ export default function ProductCard({ product }) {
           </div>
           <p>{product.description}</p>
         </div>
-        <Link to={`/products/${product.slug}`} className="btn-premium">
+        <Link href={`/products/${product.slug}`} className="btn-premium">
           View Details
         </Link>
       </div>

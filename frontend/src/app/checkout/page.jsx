@@ -1,21 +1,44 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useCart } from '../context/CartContext';
-import { useAuth } from '../context/AuthContext';
-import api from '../api/client';
-import { loadRazorpayScript } from '../utils/loadRazorpay';
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useCart } from '../../context/CartContext';
+import { useAuth } from '../../context/AuthContext';
+import api from '../../api/client';
+import { loadRazorpayScript } from '../../utils/loadRazorpay';
+
+const emptyAddress = { line1: '', line2: '', city: '', state: '', pincode: '', phone: '' };
 
 export default function Checkout() {
   const { items, subtotal, clearCart } = useCart();
-  const { user } = useAuth();
-  const navigate = useNavigate();
-  const [address, setAddress] = useState({ line1: '', line2: '', city: '', state: '', pincode: '', phone: '' });
+  const { user, refreshUser } = useAuth();
+  const router = useRouter();
+  const [address, setAddress] = useState(emptyAddress);
+  const [selectedAddressId, setSelectedAddressId] = useState(null);
+  const [saveAddress, setSaveAddress] = useState(true);
   const [paymentMethod, setPaymentMethod] = useState('razorpay');
   const [couponCode, setCouponCode] = useState('');
   const [discount, setDiscount] = useState(0);
   const [couponMsg, setCouponMsg] = useState('');
   const [placing, setPlacing] = useState(false);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (!user?.addresses?.length) return;
+    const defaultAddr = user.addresses.find((a) => a.isDefault) || user.addresses[0];
+    selectSavedAddress(defaultAddr);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
+
+  function selectSavedAddress(a) {
+    setSelectedAddressId(a._id);
+    setAddress({ line1: a.line1 || '', line2: a.line2 || '', city: a.city || '', state: a.state || '', pincode: a.pincode || '', phone: a.phone || '' });
+  }
+
+  function useNewAddress() {
+    setSelectedAddressId('new');
+    setAddress(emptyAddress);
+  }
 
   const shippingFee = subtotal - discount > 999 ? 0 : 79;
   const total = subtotal - discount + shippingFee;
@@ -34,6 +57,16 @@ export default function Checkout() {
 
   async function finalizeOrder(paymentFields = {}) {
     const orderItems = items.map((i) => ({ product: i.product, quantity: i.quantity, variant: i.variant }));
+
+    if ((selectedAddressId === 'new' || !selectedAddressId) && saveAddress) {
+      try {
+        await api.post('/users/me/addresses', { ...address, isDefault: !user.addresses?.length });
+        await refreshUser();
+      } catch {
+        // non-critical: proceed with order even if saving the address fails
+      }
+    }
+
     const res = await api.post('/orders', {
       items: orderItems,
       shippingAddress: address,
@@ -42,12 +75,12 @@ export default function Checkout() {
       ...paymentFields,
     });
     clearCart();
-    navigate(`/account/orders/${res.data._id}`);
+    router.push(`/account/orders/${res.data._id}`);
   }
 
   async function handlePlaceOrder(e) {
     e.preventDefault();
-    if (!user) return navigate('/login');
+    if (!user) return router.push('/login');
 
     setPlacing(true);
     setError('');
@@ -103,18 +136,51 @@ export default function Checkout() {
       <form onSubmit={handlePlaceOrder} className="checkout-grid">
         <div className="checkout-card">
           <h3 className="checkout-section-title">Shipping Address</h3>
-          <div className="checkout-form">
-            <input placeholder="Address Line 1" required value={address.line1} onChange={(e) => setAddress({ ...address, line1: e.target.value })} />
-            <input placeholder="Address Line 2" value={address.line2} onChange={(e) => setAddress({ ...address, line2: e.target.value })} />
-            <div className="checkout-form-row">
-              <input placeholder="City" required value={address.city} onChange={(e) => setAddress({ ...address, city: e.target.value })} />
-              <input placeholder="State" required value={address.state} onChange={(e) => setAddress({ ...address, state: e.target.value })} />
+
+          {user?.addresses?.length > 0 && (
+            <div className="saved-address-list">
+              {user.addresses.map((a) => (
+                <label key={a._id} className={`saved-address-option ${selectedAddressId === a._id ? 'active' : ''}`}>
+                  <input type="radio" name="savedAddress" checked={selectedAddressId === a._id} onChange={() => selectSavedAddress(a)} />
+                  <div>
+                    <strong>{a.label || 'Address'}</strong>
+                    {a.isDefault && <span className="address-default-tag-inline">Default</span>}
+                    <p>
+                      {a.line1}
+                      {a.line2 ? `, ${a.line2}` : ''}, {a.city}, {a.state} - {a.pincode}
+                    </p>
+                  </div>
+                </label>
+              ))}
+              <label className={`saved-address-option ${selectedAddressId === 'new' ? 'active' : ''}`}>
+                <input type="radio" name="savedAddress" checked={selectedAddressId === 'new'} onChange={useNewAddress} />
+                <div>
+                  <strong>+ Use a new address</strong>
+                </div>
+              </label>
             </div>
-            <div className="checkout-form-row">
-              <input placeholder="Pincode" required value={address.pincode} onChange={(e) => setAddress({ ...address, pincode: e.target.value })} />
-              <input placeholder="Phone" required value={address.phone} onChange={(e) => setAddress({ ...address, phone: e.target.value })} />
+          )}
+
+          {(selectedAddressId === 'new' || !user?.addresses?.length) && (
+            <div className="checkout-form">
+              <input placeholder="Address Line 1" required value={address.line1} onChange={(e) => setAddress({ ...address, line1: e.target.value })} />
+              <input placeholder="Address Line 2" value={address.line2} onChange={(e) => setAddress({ ...address, line2: e.target.value })} />
+              <div className="checkout-form-row">
+                <input placeholder="City" required value={address.city} onChange={(e) => setAddress({ ...address, city: e.target.value })} />
+                <input placeholder="State" required value={address.state} onChange={(e) => setAddress({ ...address, state: e.target.value })} />
+              </div>
+              <div className="checkout-form-row">
+                <input placeholder="Pincode" required value={address.pincode} onChange={(e) => setAddress({ ...address, pincode: e.target.value })} />
+                <input placeholder="Phone" required value={address.phone} onChange={(e) => setAddress({ ...address, phone: e.target.value })} />
+              </div>
+              {user && (
+                <label className="address-default-check">
+                  <input type="checkbox" checked={saveAddress} onChange={(e) => setSaveAddress(e.target.checked)} />
+                  Save this address for future orders
+                </label>
+              )}
             </div>
-          </div>
+          )}
 
           <h3 className="checkout-section-title">Payment Method</h3>
           <div className="payment-method">

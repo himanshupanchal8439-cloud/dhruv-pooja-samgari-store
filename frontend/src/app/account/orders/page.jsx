@@ -1,6 +1,8 @@
+'use client';
+
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import api from '../api/client';
+import Link from 'next/link';
+import api from '../../../api/client';
 
 export default function MyOrders() {
   const [orders, setOrders] = useState([]);
@@ -17,7 +19,7 @@ export default function MyOrders() {
       ) : (
         <div className="orders-list">
           {orders.map((o) => (
-            <Link key={o._id} to={`/account/orders/${o._id}`} className="order-row">
+            <Link key={o._id} href={`/account/orders/${o._id}`} className="order-row">
               <span>#{o._id.slice(-6)}</span>
               <span>{o.items.length} items</span>
               <span>₹{o.total}</span>

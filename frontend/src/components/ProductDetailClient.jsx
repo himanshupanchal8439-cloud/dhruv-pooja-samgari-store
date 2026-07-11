@@ -1,24 +1,16 @@
+'use client';
+
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import api from '../api/client';
+import { useRouter } from 'next/navigation';
 import { useCart } from '../context/CartContext';
 
-export default function ProductDetail() {
-  const { slug } = useParams();
-  const [product, setProduct] = useState(null);
+export default function ProductDetailClient({ product }) {
   const [quantity, setQuantity] = useState(1);
   const [variant, setVariant] = useState(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [previewOpen, setPreviewOpen] = useState(false);
   const { addItem } = useCart();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    api.get(`/products/${slug}`).then((res) => {
-      setProduct(res.data);
-      setActiveIndex(0);
-    });
-  }, [slug]);
+  const router = useRouter();
 
   useEffect(() => {
     if (!previewOpen) return;
@@ -28,8 +20,6 @@ export default function ProductDetail() {
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
   }, [previewOpen]);
-
-  if (!product) return <p className="section">Loading...</p>;
 
   const images = product.images?.length ? product.images : ['https://loremflickr.com/500/500/puja'];
   const videos = product.videos || [];
@@ -111,7 +101,7 @@ export default function ProductDetail() {
             disabled={product.stock <= 0}
             onClick={() => {
               addItem(product, quantity, variant);
-              navigate('/checkout');
+              router.push('/checkout');
             }}
           >
             Buy Now

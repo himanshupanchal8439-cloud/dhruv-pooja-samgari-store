@@ -1,5 +1,7 @@
-import { Link } from 'react-router-dom';
-import { useCart } from '../context/CartContext';
+'use client';
+
+import Link from 'next/link';
+import { useCart } from '../../context/CartContext';
 
 export default function Cart() {
   const { items, updateQuantity, removeItem, subtotal } = useCart();
@@ -8,7 +10,7 @@ export default function Cart() {
     return (
       <section className="section">
         <h2>Your cart is empty</h2>
-        <Link to="/products" className="btn-primary">
+        <Link href="/products" className="btn-primary">
           Continue Shopping
         </Link>
       </section>
@@ -46,7 +48,7 @@ export default function Cart() {
         <p>
           Subtotal: <strong>₹{subtotal}</strong>
         </p>
-        <Link to="/checkout" className="btn-primary">
+        <Link href="/checkout" className="btn-primary">
           Proceed to Checkout
         </Link>
       </div>
