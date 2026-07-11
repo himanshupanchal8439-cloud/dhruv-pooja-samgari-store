@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
@@ -13,16 +14,29 @@ const links = [
 
 export default function Layout() {
   const { user, logout } = useAuth();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <div className="admin-shell">
-      <aside className="admin-sidebar">
+      <button className="admin-menu-toggle" onClick={() => setMenuOpen((v) => !v)} aria-label="Toggle menu">
+        <span />
+        <span />
+        <span />
+      </button>
+
+      <aside className={`admin-sidebar ${menuOpen ? 'open' : ''}`}>
         <h2 className="brand">Dhruv Admin</h2>
         <nav>
           {links
             .filter((l) => l.roles.includes(user.role))
             .map((l) => (
-              <NavLink key={l.to} to={l.to} end={l.to === '/'} className={({ isActive }) => (isActive ? 'active' : '')}>
+              <NavLink
+                key={l.to}
+                to={l.to}
+                end={l.to === '/'}
+                className={({ isActive }) => (isActive ? 'active' : '')}
+                onClick={() => setMenuOpen(false)}
+              >
                 {l.label}
               </NavLink>
             ))}
@@ -35,6 +49,9 @@ export default function Layout() {
           </button>
         </div>
       </aside>
+
+      {menuOpen && <div className="admin-menu-backdrop" onClick={() => setMenuOpen(false)} />}
+
       <main className="admin-content">
         <Outlet />
       </main>
