@@ -185,6 +185,9 @@ export default function AstrologySection() {
               </span>
             )}
             <h3>Talk to Premium Astrologer</h3>
+            <p className="astro-astrologer-name">
+              Pandit Avnish Sharma <span>· Vedic Jyotish Expert</span>
+            </p>
             <p>
               Get instant guidance for your Career, Marriage, and Wealth from India's top verified Vedic experts.
               First consultation at a special divine introductory price.
