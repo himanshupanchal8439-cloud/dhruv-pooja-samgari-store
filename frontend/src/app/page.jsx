@@ -1,6 +1,7 @@
 import GaneshaHero from '../components/GaneshaHero';
 import HomeSections from '../components/HomeSections';
 import AstrologySection from '../components/AstrologySection';
+import PanchangSection from '../components/PanchangSection';
 import AwardsSection from '../components/AwardsSection';
 
 const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
@@ -25,6 +26,7 @@ export default async function Home() {
       <GaneshaHero />
       <HomeSections categories={categories} products={products} />
       <AstrologySection />
+      <PanchangSection />
       <AwardsSection />
     </>
   );

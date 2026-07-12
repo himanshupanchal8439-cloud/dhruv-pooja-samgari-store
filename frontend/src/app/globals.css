@@ -2406,6 +2406,84 @@ button {
   color: #cbb99e;
 }
 
+/* Panchang / Muhurat */
+.panchang-section {
+  background: var(--color-bg);
+}
+
+.panchang-section .sacred-heading h2 {
+  font-family: var(--font-cinzel);
+}
+
+.panchang-date {
+  margin-top: 0.75rem;
+  color: var(--color-muted);
+  font-size: 0.9rem;
+}
+
+.panchang-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
+
+.panchang-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-top: 3px solid var(--gold-main);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  text-align: center;
+  box-shadow: 0 6px 18px rgba(36, 31, 28, 0.05);
+}
+
+.panchang-card i {
+  display: block;
+  font-size: 1.3rem;
+  color: var(--gold-dark);
+  margin-bottom: 0.6rem;
+}
+
+.panchang-card span {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-muted);
+  margin-bottom: 0.35rem;
+}
+
+.panchang-card strong {
+  font-family: var(--font-cinzel);
+  font-size: 1rem;
+  color: var(--color-text);
+}
+
+.panchang-card-good {
+  border-top-color: #2e8b57;
+}
+
+.panchang-card-good i {
+  color: #2e8b57;
+}
+
+.panchang-card-bad {
+  border-top-color: #b0413e;
+}
+
+.panchang-card-bad i {
+  color: #b0413e;
+}
+
+.panchang-note {
+  margin-top: 1.75rem;
+  text-align: center;
+  font-size: 0.82rem;
+  color: var(--color-muted);
+}
+
 @keyframes pulseDot {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.4; }
