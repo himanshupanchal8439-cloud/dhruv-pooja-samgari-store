@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import ProductCard from '../../components/ProductCard';
+import T from '../../components/T';
 
 const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
 
@@ -32,11 +33,13 @@ export default async function Products({ searchParams }) {
     <section className="section">
       <div className="products-layout">
         <aside className="filters">
-          <h3>Categories</h3>
+          <h3>
+            <T k="categories" />
+          </h3>
           <ul>
             <li>
               <Link href={`/products${search ? `?search=${search}` : ''}`} className={!category ? 'active' : ''}>
-                All
+                <T k="all" />
               </Link>
             </li>
             {categories.map((c) => (
@@ -53,9 +56,19 @@ export default async function Products({ searchParams }) {
         </aside>
 
         <div className="products-content">
-          <h2>{search ? `Results for "${search}"` : 'All Products'}</h2>
+          <h2>
+            {search ? (
+              <>
+                <T k="resultsFor" /> "{search}"
+              </>
+            ) : (
+              <T k="allProducts" />
+            )}
+          </h2>
           {products.length === 0 ? (
-            <p>No products found.</p>
+            <p>
+              <T k="noProducts" />
+            </p>
           ) : (
             <div className="product-grid">
               {products.map((p) => (

@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useLanguage } from '../context/LanguageContext';
 
 const awards = [
   {
@@ -22,6 +23,7 @@ const awards = [
 
 export default function AwardsSection() {
   const sectionRef = useRef();
+  const { t } = useLanguage();
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -44,8 +46,8 @@ export default function AwardsSection() {
     <section className="awards-section" ref={sectionRef}>
       <div className="section">
         <div className="sacred-heading">
-          <h4 className="awards-eyebrow">Recognitions &amp; Media</h4>
-          <h2>Trust In Every Detail</h2>
+          <h4 className="awards-eyebrow">{t('recognitions')}</h4>
+          <h2>{t('trustHeading')}</h2>
           <div className="sacred-divider" />
         </div>
 

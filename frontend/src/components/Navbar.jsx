@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 import api from '../api/client';
 
 export default function Navbar() {
@@ -13,6 +14,7 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const { count } = useCart();
   const { user, logout } = useAuth();
+  const { lang, switchLang, t } = useLanguage();
   const router = useRouter();
 
   useEffect(() => {
@@ -42,6 +44,14 @@ export default function Navbar() {
         </div>
 
         <div className="nav-actions">
+          <button
+            className="nav-item-3d nav-lang-toggle"
+            onClick={() => switchLang(lang === 'en' ? 'hi' : 'en')}
+            aria-label="Switch language"
+          >
+            {lang === 'en' ? 'हिं' : 'EN'}
+          </button>
+
           <button className="nav-item-3d nav-icon-btn" onClick={() => setMenuOpen((v) => !v)} aria-label="Search">
             <i className="fa-solid fa-magnifying-glass" />
           </button>
@@ -59,7 +69,7 @@ export default function Navbar() {
 
           <Link href="/cart" className="btn-gold-3d cart-btn">
             <i className="fa-solid fa-bag-shopping" />
-            <span className="cart-label">Cart</span>
+            <span className="cart-label">{t('cart')}</span>
             {count > 0 && <span className="cart-badge">{count}</span>}
           </Link>
 
@@ -76,11 +86,11 @@ export default function Navbar() {
           <input
             type="text"
             autoFocus
-            placeholder="Search puja samagri, thali sets..."
+            placeholder={t('searchPlaceholder')}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
-          <button type="submit">Search</button>
+          <button type="submit">{t('search')}</button>
         </form>
       )}
     </header>

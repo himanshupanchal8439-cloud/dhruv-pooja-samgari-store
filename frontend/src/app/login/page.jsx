@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../../context/AuthContext';
+import { useLanguage } from '../../context/LanguageContext';
 
 export default function Login() {
   const [mode, setMode] = useState('password');
@@ -14,6 +15,7 @@ export default function Login() {
   const [error, setError] = useState('');
   const [sending, setSending] = useState(false);
   const { login, sendOtp, verifyOtp } = useAuth();
+  const { t } = useLanguage();
   const router = useRouter();
 
   async function handlePasswordSubmit(e) {
@@ -65,42 +67,42 @@ export default function Login() {
         <div className="auth-icon">
           <i className="fa-solid fa-om" />
         </div>
-        <h2>Welcome Back</h2>
-        <p className="auth-subtitle">Login to continue your spiritual journey with us.</p>
+        <h2>{t('welcomeBack')}</h2>
+        <p className="auth-subtitle">{t('loginSubtitle')}</p>
 
         <div className="auth-mode-tabs">
           <button type="button" className={mode === 'password' ? 'active' : ''} onClick={() => switchMode('password')}>
-            Password
+            {t('password')}
           </button>
           <button type="button" className={mode === 'otp' ? 'active' : ''} onClick={() => switchMode('otp')}>
-            Email OTP
+            {t('otpTab')}
           </button>
         </div>
 
         {mode === 'password' ? (
           <form onSubmit={handlePasswordSubmit} className="auth-form">
-            <input type="email" placeholder="Email" required value={email} onChange={(e) => setEmail(e.target.value)} />
-            <input type="password" placeholder="Password" required value={password} onChange={(e) => setPassword(e.target.value)} />
+            <input type="email" placeholder={t('email')} required value={email} onChange={(e) => setEmail(e.target.value)} />
+            <input type="password" placeholder={t('password')} required value={password} onChange={(e) => setPassword(e.target.value)} />
             {error && <p className="error">{error}</p>}
             <button className="btn-primary auth-submit" type="submit">
-              Login
+              {t('loginBtn')}
             </button>
           </form>
         ) : otpStep === 'email' ? (
           <form onSubmit={handleSendOtp} className="auth-form">
-            <input type="email" placeholder="Email" required value={email} onChange={(e) => setEmail(e.target.value)} />
+            <input type="email" placeholder={t('email')} required value={email} onChange={(e) => setEmail(e.target.value)} />
             {error && <p className="error">{error}</p>}
             <button className="btn-primary auth-submit" type="submit" disabled={sending}>
-              {sending ? 'Sending...' : 'Send Login Code'}
+              {sending ? t('sending') : t('sendCode')}
             </button>
           </form>
         ) : (
           <form onSubmit={handleVerifyOtp} className="auth-form">
             <p className="otp-sent-hint">
-              We've sent a 6-digit code to <strong>{email}</strong>
+              {t('codeSentTo')} <strong>{email}</strong>
             </p>
             <input
-              placeholder="Enter 6-digit code"
+              placeholder={t('enterCode')}
               required
               maxLength={6}
               value={code}
@@ -108,16 +110,16 @@ export default function Login() {
             />
             {error && <p className="error">{error}</p>}
             <button className="btn-primary auth-submit" type="submit">
-              Verify &amp; Login
+              {t('verifyLogin')}
             </button>
             <button type="button" className="link-btn otp-resend" onClick={() => setOtpStep('email')}>
-              Change email / resend code
+              {t('changeEmail')}
             </button>
           </form>
         )}
 
         <p className="auth-footer-text">
-          New here? <Link href="/register">Create an account</Link>
+          {t('newHere')} <Link href="/register">{t('createAccount')}</Link>
         </p>
       </div>
     </section>

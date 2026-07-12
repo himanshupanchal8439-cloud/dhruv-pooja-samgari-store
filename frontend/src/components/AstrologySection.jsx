@@ -4,29 +4,12 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useLanguage } from '../context/LanguageContext';
 
-const services = [
-  {
-    icon: 'fa-scroll',
-    title: 'Janam Kundli',
-    text: 'Get your detailed birth chart with accurate planetary positions and personalized life predictions.',
-    cta: 'Generate Free',
-    link: '/kundli',
-  },
-  {
-    icon: 'fa-heart',
-    title: 'Kundli Matching',
-    text: 'Check 36 Gunas for marriage. Ensure a harmonious and prosperous married life based on Vedic astrology.',
-    cta: 'Match Now',
-    link: '/kundli-matching',
-  },
-  {
-    icon: 'fa-star-and-crescent',
-    title: 'Daily Horoscope',
-    text: 'Read your free daily, weekly, and yearly astrological predictions based on your moon sign.',
-    cta: 'Read Today',
-    link: '/daily-horoscope',
-  },
+const serviceDefs = [
+  { icon: 'fa-scroll', titleKey: 'janamKundli', textKey: 'kundliText', ctaKey: 'generateFree', link: '/kundli' },
+  { icon: 'fa-heart', titleKey: 'kundliMatching', textKey: 'matchingText', ctaKey: 'matchNow', link: '/kundli-matching' },
+  { icon: 'fa-star-and-crescent', titleKey: 'dailyHoroscope', textKey: 'horoscopeText', ctaKey: 'readToday', link: '/daily-horoscope' },
 ];
 
 // Astrologers are available 6:00 AM – 10:00 PM IST
@@ -42,6 +25,7 @@ export default function AstrologySection() {
   const sectionRef = useRef();
   const cardRefs = useRef([]);
   const [isLive, setIsLive] = useState(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     setIsLive(isLiveNowIST());
@@ -134,19 +118,16 @@ export default function AstrologySection() {
       <div className="astro-inner">
         <div className="astro-header">
           <h3 className="astro-eyebrow">
-            <i className="fa-solid fa-moon" /> Cosmic Guidance
+            <i className="fa-solid fa-moon" /> {t('cosmicGuidance')}
           </h3>
-          <h2 className="astro-title">Vedic Astrology Services</h2>
-          <p className="astro-desc">
-            Unlock the secrets of your stars. Connect with premium verified astrologers and discover your true life
-            path through authentic Vedic science.
-          </p>
+          <h2 className="astro-title">{t('vedicServices')}</h2>
+          <p className="astro-desc">{t('astroDesc')}</p>
         </div>
 
         <div className="astro-grid">
-          {services.map((s, i) => (
+          {serviceDefs.map((s, i) => (
             <div
-              key={s.title}
+              key={s.titleKey}
               className="astro-card"
               ref={(el) => (cardRefs.current[i] = el)}
               onMouseMove={(e) => handleTilt(e, i)}
@@ -157,17 +138,11 @@ export default function AstrologySection() {
                 <div className="astro-icon">
                   <i className={`fa-solid ${s.icon}`} />
                 </div>
-                <h3>{s.title}</h3>
-                <p>{s.text}</p>
-                {s.link ? (
-                  <Link href={s.link} className="astro-link">
-                    {s.cta} <i className="fa-solid fa-arrow-right" />
-                  </Link>
-                ) : (
-                  <button className="astro-link">
-                    {s.cta} <i className="fa-solid fa-arrow-right" />
-                  </button>
-                )}
+                <h3>{t(s.titleKey)}</h3>
+                <p>{t(s.textKey)}</p>
+                <Link href={s.link} className="astro-link">
+                  {t(s.ctaKey)} <i className="fa-solid fa-arrow-right" />
+                </Link>
               </div>
             </div>
           ))}
@@ -177,27 +152,24 @@ export default function AstrologySection() {
           <div className="astro-banner-text">
             {isLive ? (
               <span className="astro-live-badge">
-                <span className="astro-live-dot" /> Live Now
+                <span className="astro-live-dot" /> {t('liveNow')}
               </span>
             ) : (
               <span className="astro-live-badge astro-live-badge-offline">
-                <i className="fa-regular fa-clock" /> Available 6 AM – 10 PM
+                <i className="fa-regular fa-clock" /> {t('availableHours')}
               </span>
             )}
-            <h3>Talk to Premium Astrologer</h3>
+            <h3>{t('talkPremium')}</h3>
             <p className="astro-astrologer-name">
-              Pandit Avnish Sharma <span>· Vedic Jyotish Expert · 15+ Years Experience</span>
+              Pandit Avnish Sharma <span>{t('vedicExpert')}</span>
             </p>
-            <p>
-              Get instant guidance for your Career, Marriage, and Wealth from India's top verified Vedic experts.
-              First consultation at a special divine introductory price.
-            </p>
+            <p>{t('astroBannerDesc')}</p>
             <div className="astro-banner-actions">
               <a href="tel:+919876543210" className="btn-astro">
-                <i className="fa-solid fa-phone" /> Call Now
+                <i className="fa-solid fa-phone" /> {t('callNow')}
               </a>
               <a href="https://wa.me/919876543210" target="_blank" rel="noopener noreferrer" className="btn-astro btn-astro-outline">
-                <i className="fa-solid fa-comment-dots" /> Chat Now
+                <i className="fa-solid fa-comment-dots" /> {t('chatNow')}
               </a>
             </div>
           </div>

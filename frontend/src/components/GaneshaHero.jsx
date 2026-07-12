@@ -3,8 +3,10 @@
 import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import gsap from 'gsap';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function GaneshaHero() {
+  const { t } = useLanguage();
   const sceneRef = useRef();
   const mandalaRef = useRef();
   const ganeshaRef = useRef();
@@ -151,14 +153,11 @@ export default function GaneshaHero() {
       <div className="hero-content" ref={heroRef}>
         <h3 className="hero-eyebrow">|| Shree Ganeshay Namah ||</h3>
         <h2 className="hero-title">
-          Awaken Your <br /> Inner Divinity
+          {t('heroTitle1')} <br /> {t('heroTitle2')}
         </h2>
-        <p className="hero-subtitle">
-          Experience the purity of authentic rituals with our handcrafted premium idols, sacred yantras, and pure
-          puja samagri.
-        </p>
+        <p className="hero-subtitle">{t('heroSubtitle')}</p>
         <Link href="/products" className="hero-cta btn-gold-3d">
-          Shop Sacred Collection <i className="fa-solid fa-arrow-right" />
+          {t('heroCta')} <i className="fa-solid fa-arrow-right" />
         </Link>
       </div>
     </section>

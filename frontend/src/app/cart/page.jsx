@@ -2,16 +2,18 @@
 
 import Link from 'next/link';
 import { useCart } from '../../context/CartContext';
+import { useLanguage } from '../../context/LanguageContext';
 
 export default function Cart() {
   const { items, updateQuantity, removeItem, subtotal } = useCart();
+  const { t } = useLanguage();
 
   if (items.length === 0) {
     return (
       <section className="section">
-        <h2>Your cart is empty</h2>
+        <h2>{t('emptyCart')}</h2>
         <Link href="/products" className="btn-primary">
-          Continue Shopping
+          {t('continueShopping')}
         </Link>
       </section>
     );
@@ -19,7 +21,7 @@ export default function Cart() {
 
   return (
     <section className="section cart-page">
-      <h2>Your Cart</h2>
+      <h2>{t('yourCart')}</h2>
       <div className="cart-items">
         {items.map((item) => (
           <div key={item.key} className="cart-item">
@@ -39,17 +41,17 @@ export default function Cart() {
               <button onClick={() => updateQuantity(item.key, item.quantity + 1)}>+</button>
             </div>
             <button className="link-btn" onClick={() => removeItem(item.key)}>
-              Remove
+              {t('remove')}
             </button>
           </div>
         ))}
       </div>
       <div className="cart-summary">
         <p>
-          Subtotal: <strong>₹{subtotal}</strong>
+          {t('subtotal')}: <strong>₹{subtotal}</strong>
         </p>
         <Link href="/checkout" className="btn-primary">
-          Proceed to Checkout
+          {t('proceedCheckout')}
         </Link>
       </div>
     </section>

@@ -6,12 +6,14 @@ import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
 import api from '../../api/client';
 import { loadRazorpayScript } from '../../utils/loadRazorpay';
+import { useLanguage } from '../../context/LanguageContext';
 
 const emptyAddress = { line1: '', line2: '', city: '', state: '', pincode: '', phone: '' };
 
 export default function Checkout() {
   const { items, subtotal, clearCart } = useCart();
   const { user, refreshUser } = useAuth();
+  const { t } = useLanguage();
   const router = useRouter();
   const [address, setAddress] = useState(emptyAddress);
   const [selectedAddressId, setSelectedAddressId] = useState(null);
@@ -132,10 +134,10 @@ export default function Checkout() {
 
   return (
     <section className="section checkout-page">
-      <h2>Checkout</h2>
+      <h2>{t('checkout')}</h2>
       <form onSubmit={handlePlaceOrder} className="checkout-grid">
         <div className="checkout-card">
-          <h3 className="checkout-section-title">Shipping Address</h3>
+          <h3 className="checkout-section-title">{t('shippingAddress')}</h3>
 
           {user?.addresses?.length > 0 && (
             <div className="saved-address-list">
@@ -155,7 +157,7 @@ export default function Checkout() {
               <label className={`saved-address-option ${selectedAddressId === 'new' ? 'active' : ''}`}>
                 <input type="radio" name="savedAddress" checked={selectedAddressId === 'new'} onChange={useNewAddress} />
                 <div>
-                  <strong>+ Use a new address</strong>
+                  <strong>{t('useNewAddr')}</strong>
                 </div>
               </label>
             </div>
@@ -163,68 +165,68 @@ export default function Checkout() {
 
           {(selectedAddressId === 'new' || !user?.addresses?.length) && (
             <div className="checkout-form">
-              <input placeholder="Address Line 1" required value={address.line1} onChange={(e) => setAddress({ ...address, line1: e.target.value })} />
-              <input placeholder="Address Line 2" value={address.line2} onChange={(e) => setAddress({ ...address, line2: e.target.value })} />
+              <input placeholder={t('addr1')} required value={address.line1} onChange={(e) => setAddress({ ...address, line1: e.target.value })} />
+              <input placeholder={t('addr2')} value={address.line2} onChange={(e) => setAddress({ ...address, line2: e.target.value })} />
               <div className="checkout-form-row">
-                <input placeholder="City" required value={address.city} onChange={(e) => setAddress({ ...address, city: e.target.value })} />
-                <input placeholder="State" required value={address.state} onChange={(e) => setAddress({ ...address, state: e.target.value })} />
+                <input placeholder={t('city')} required value={address.city} onChange={(e) => setAddress({ ...address, city: e.target.value })} />
+                <input placeholder={t('state')} required value={address.state} onChange={(e) => setAddress({ ...address, state: e.target.value })} />
               </div>
               <div className="checkout-form-row">
-                <input placeholder="Pincode" required value={address.pincode} onChange={(e) => setAddress({ ...address, pincode: e.target.value })} />
-                <input placeholder="Phone" required value={address.phone} onChange={(e) => setAddress({ ...address, phone: e.target.value })} />
+                <input placeholder={t('pincode')} required value={address.pincode} onChange={(e) => setAddress({ ...address, pincode: e.target.value })} />
+                <input placeholder={t('phone')} required value={address.phone} onChange={(e) => setAddress({ ...address, phone: e.target.value })} />
               </div>
               {user && (
                 <label className="address-default-check">
                   <input type="checkbox" checked={saveAddress} onChange={(e) => setSaveAddress(e.target.checked)} />
-                  Save this address for future orders
+                  {t('saveAddr')}
                 </label>
               )}
             </div>
           )}
 
-          <h3 className="checkout-section-title">Payment Method</h3>
+          <h3 className="checkout-section-title">{t('paymentMethod')}</h3>
           <div className="payment-method">
             <label className={`payment-option ${paymentMethod === 'razorpay' ? 'active' : ''}`}>
               <input type="radio" name="pm" checked={paymentMethod === 'razorpay'} onChange={() => setPaymentMethod('razorpay')} />
               <i className="fa-solid fa-credit-card" />
-              <span>Pay Online (Razorpay)</span>
+              <span>{t('payOnline')}</span>
             </label>
             <label className={`payment-option ${paymentMethod === 'cod' ? 'active' : ''}`}>
               <input type="radio" name="pm" checked={paymentMethod === 'cod'} onChange={() => setPaymentMethod('cod')} />
               <i className="fa-solid fa-hand-holding-dollar" />
-              <span>Cash on Delivery</span>
+              <span>{t('cod')}</span>
             </label>
           </div>
         </div>
 
         <div className="checkout-card checkout-summary-card">
-          <h3 className="checkout-section-title">Order Summary</h3>
+          <h3 className="checkout-section-title">{t('orderSummary')}</h3>
 
           <div className="coupon-row">
-            <input placeholder="Coupon code" value={couponCode} onChange={(e) => setCouponCode(e.target.value)} />
+            <input placeholder={t('couponCode')} value={couponCode} onChange={(e) => setCouponCode(e.target.value)} />
             <button type="button" onClick={applyCoupon}>
-              Apply
+              {t('apply')}
             </button>
           </div>
           {couponMsg && <p className="coupon-msg">{couponMsg}</p>}
 
           <div className="checkout-summary-lines">
             <div className="checkout-summary-line">
-              <span>Subtotal</span>
+              <span>{t('subtotal')}</span>
               <span>₹{subtotal}</span>
             </div>
             {discount > 0 && (
               <div className="checkout-summary-line checkout-summary-discount">
-                <span>Discount</span>
+                <span>{t('discount')}</span>
                 <span>-₹{discount.toFixed(0)}</span>
               </div>
             )}
             <div className="checkout-summary-line">
-              <span>Shipping</span>
-              <span>{shippingFee === 0 ? 'Free' : `₹${shippingFee}`}</span>
+              <span>{t('shipping')}</span>
+              <span>{shippingFee === 0 ? t('free') : `₹${shippingFee}`}</span>
             </div>
             <div className="checkout-summary-line checkout-summary-total">
-              <span>Total</span>
+              <span>{t('total')}</span>
               <span>₹{total.toFixed(0)}</span>
             </div>
           </div>
@@ -232,7 +234,7 @@ export default function Checkout() {
           {error && <p className="error">{error}</p>}
 
           <button className="btn-primary checkout-submit" type="submit" disabled={placing}>
-            {placing ? 'Processing...' : paymentMethod === 'cod' ? 'Place Order (COD)' : 'Pay & Place Order'}
+            {placing ? t('processing') : paymentMethod === 'cod' ? t('placeOrderCod') : t('payPlace')}
           </button>
         </div>
       </form>

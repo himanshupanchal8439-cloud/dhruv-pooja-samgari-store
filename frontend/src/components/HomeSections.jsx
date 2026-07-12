@@ -6,8 +6,10 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SectionAura from './SectionAura';
 import ProductCard from './ProductCard';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function HomeSections({ categories, products }) {
+  const { t } = useLanguage();
   useEffect(() => {
     if (!products.length) return;
     gsap.registerPlugin(ScrollTrigger);
@@ -31,7 +33,7 @@ export default function HomeSections({ categories, products }) {
         <SectionAura />
         <div className="section">
           <div className="sacred-heading">
-            <h2>Shop by Category</h2>
+            <h2>{t('shopByCategory')}</h2>
             <div className="sacred-divider" />
           </div>
           <div className="category-grid">
@@ -48,7 +50,7 @@ export default function HomeSections({ categories, products }) {
         <SectionAura dark />
         <div className="section">
           <div className="sacred-heading">
-            <h2>Sacred Collections</h2>
+            <h2>{t('sacredCollections')}</h2>
             <div className="sacred-divider" />
           </div>
           <div className="product-grid" id="product-grid">

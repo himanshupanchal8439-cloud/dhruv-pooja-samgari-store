@@ -3,9 +3,11 @@
 import { useRef } from 'react';
 import Link from 'next/link';
 import gsap from 'gsap';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function ProductCard({ product }) {
   const cardRef = useRef();
+  const { t } = useLanguage();
   const hasDiscount = product.compareAtPrice && product.compareAtPrice > product.price;
   const discountPercent = hasDiscount
     ? Math.round(((product.compareAtPrice - product.price) / product.compareAtPrice) * 100)
@@ -43,7 +45,7 @@ export default function ProductCard({ product }) {
           <p>{product.description}</p>
         </div>
         <Link href={`/products/${product.slug}`} className="btn-premium">
-          View Details
+          {t('viewDetails')}
         </Link>
       </div>
     </div>
