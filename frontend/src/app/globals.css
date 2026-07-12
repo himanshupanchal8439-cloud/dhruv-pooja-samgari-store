@@ -2376,6 +2376,12 @@ button {
   animation: pulseDot 1.5s infinite;
 }
 
+.astro-live-badge-offline {
+  background: rgba(255, 255, 255, 0.06);
+  color: #cbb99e;
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
 @keyframes pulseDot {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.4; }

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -29,10 +29,25 @@ const services = [
   },
 ];
 
+// Astrologers are available 6:00 AM – 10:00 PM IST
+function isLiveNowIST() {
+  const istHour = Number(
+    new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', hour: 'numeric', hour12: false }).format(new Date())
+  );
+  return istHour >= 6 && istHour < 22;
+}
+
 export default function AstrologySection() {
   const starsRef = useRef();
   const sectionRef = useRef();
   const cardRefs = useRef([]);
+  const [isLive, setIsLive] = useState(false);
+
+  useEffect(() => {
+    setIsLive(isLiveNowIST());
+    const timer = setInterval(() => setIsLive(isLiveNowIST()), 60 * 1000);
+    return () => clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -160,9 +175,15 @@ export default function AstrologySection() {
 
         <div className="astro-banner">
           <div className="astro-banner-text">
-            <span className="astro-live-badge">
-              <span className="astro-live-dot" /> Live Now
-            </span>
+            {isLive ? (
+              <span className="astro-live-badge">
+                <span className="astro-live-dot" /> Live Now
+              </span>
+            ) : (
+              <span className="astro-live-badge astro-live-badge-offline">
+                <i className="fa-regular fa-clock" /> Available 6 AM – 10 PM
+              </span>
+            )}
             <h3>Talk to Premium Astrologer</h3>
             <p>
               Get instant guidance for your Career, Marriage, and Wealth from India's top verified Vedic experts.
