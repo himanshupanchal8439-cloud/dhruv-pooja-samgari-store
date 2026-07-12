@@ -85,7 +85,7 @@ export default function AstrologySection() {
       });
 
       gsap.from('.astro-banner', {
-        scrollTrigger: { trigger: sectionRef.current, start: 'bottom 80%' },
+        scrollTrigger: { trigger: '.astro-banner', start: 'top 85%' },
         scale: 0.95,
         opacity: 0,
         y: 40,
