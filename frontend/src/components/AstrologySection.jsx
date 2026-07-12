@@ -4,7 +4,6 @@ import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import SectionAura from './SectionAura';
 
 const services = [
   {
@@ -180,7 +179,6 @@ export default function AstrologySection() {
           </div>
 
           <div className="astro-banner-image">
-            <SectionAura dark />
             <img src="/images/astrologer.png" alt="Vedic Astrologer" />
           </div>
 
