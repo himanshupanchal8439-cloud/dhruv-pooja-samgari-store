@@ -2,9 +2,8 @@
 
 import { useEffect, useState } from 'react';
 
-// Location: New Delhi (IST). All timings are computed for this location.
-const LAT = 28.6139;
-const LON = 77.209;
+// Default location: New Delhi. Timings are in IST (Indian audience).
+const DEFAULT_LOCATION = { lat: 28.6139, lon: 77.209, label: 'New Delhi' };
 const IST_OFFSET_MIN = 330;
 
 const tithiNames = [
@@ -73,7 +72,7 @@ function ayanamsa(date) {
 }
 
 // NOAA simplified sunrise/sunset, returns IST minutes from midnight
-function sunTimes(date) {
+function sunTimes(date, lat, lon) {
   const start = new Date(date.getFullYear(), 0, 0);
   const dayOfYear = Math.floor((date - start) / 86400000);
   const g = ((2 * Math.PI) / 365) * (dayOfYear - 1 + 0.5);
@@ -90,12 +89,11 @@ function sunTimes(date) {
     0.002697 * Math.cos(3 * g) +
     0.00148 * Math.sin(3 * g);
 
-  const haCos =
-    Math.cos(90.833 * deg) / (Math.cos(LAT * deg) * Math.cos(decl)) - Math.tan(LAT * deg) * Math.tan(decl);
+  const haCos = Math.cos(90.833 * deg) / (Math.cos(lat * deg) * Math.cos(decl)) - Math.tan(lat * deg) * Math.tan(decl);
   const ha = Math.acos(Math.min(1, Math.max(-1, haCos))) / deg;
 
-  const sunriseUTC = 720 - 4 * (LON + ha) - eqtime;
-  const sunsetUTC = 720 - 4 * (LON - ha) - eqtime;
+  const sunriseUTC = 720 - 4 * (lon + ha) - eqtime;
+  const sunsetUTC = 720 - 4 * (lon - ha) - eqtime;
   return { sunrise: sunriseUTC + IST_OFFSET_MIN, sunset: sunsetUTC + IST_OFFSET_MIN };
 }
 
@@ -114,7 +112,7 @@ function segmentRange(sunrise, sunset, index1) {
   return `${fmt(start)} – ${fmt(start + part)}`;
 }
 
-function computePanchang() {
+function computePanchang(lat, lon) {
   const now = new Date();
   const jd = julianDay(now);
 
@@ -132,7 +130,7 @@ function computePanchang() {
   const siderealMoon = norm360(moon - ayanamsa(now));
   const nakshatra = nakshatraNames[Math.floor(siderealMoon / (360 / 27))];
 
-  const { sunrise, sunset } = sunTimes(now);
+  const { sunrise, sunset } = sunTimes(now, lat, lon);
   const dayLen = sunset - sunrise;
   const midday = sunrise + dayLen / 2;
   const muhurta = dayLen / 15;
@@ -152,14 +150,57 @@ function computePanchang() {
   };
 }
 
+async function reverseGeocode(lat, lon) {
+  try {
+    const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=10`);
+    const data = await res.json();
+    const a = data.address || {};
+    return a.city || a.town || a.village || a.county || a.state_district || a.state || 'Your Location';
+  } catch {
+    return 'Your Location';
+  }
+}
+
 export default function PanchangSection() {
+  const [location, setLocation] = useState(DEFAULT_LOCATION);
   const [p, setP] = useState(null);
+  const [locStatus, setLocStatus] = useState('default'); // default | detecting | detected | denied
+
+  function applyPosition(pos) {
+    const { latitude, longitude } = pos.coords;
+    reverseGeocode(latitude, longitude).then((label) => {
+      setLocation({ lat: latitude, lon: longitude, label });
+      setLocStatus('detected');
+    });
+  }
+
+  function requestLocation() {
+    if (!navigator.geolocation) return;
+    setLocStatus('detecting');
+    navigator.geolocation.getCurrentPosition(applyPosition, () => setLocStatus('denied'), {
+      timeout: 10000,
+      maximumAge: 600000,
+    });
+  }
 
   useEffect(() => {
-    setP(computePanchang());
-    const timer = setInterval(() => setP(computePanchang()), 10 * 60 * 1000);
-    return () => clearInterval(timer);
+    // If the user already granted permission earlier, use it silently (no popup)
+    if (navigator.permissions?.query) {
+      navigator.permissions
+        .query({ name: 'geolocation' })
+        .then((res) => {
+          if (res.state === 'granted') requestLocation();
+        })
+        .catch(() => {});
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    setP(computePanchang(location.lat, location.lon));
+    const timer = setInterval(() => setP(computePanchang(location.lat, location.lon)), 10 * 60 * 1000);
+    return () => clearInterval(timer);
+  }, [location]);
 
   if (!p) return null;
 
@@ -171,8 +212,18 @@ export default function PanchangSection() {
           <h2>Daily Panchang &amp; Shubh Muhurat</h2>
           <div className="sacred-divider" />
           <p className="panchang-date">
-            {p.dateLabel} · {p.vaar} · New Delhi
+            {p.dateLabel} · {p.vaar} · <i className="fa-solid fa-location-dot" /> {location.label}
           </p>
+          {locStatus !== 'detected' && (
+            <button className="panchang-location-btn" onClick={requestLocation} disabled={locStatus === 'detecting'}>
+              <i className="fa-solid fa-crosshairs" />{' '}
+              {locStatus === 'detecting'
+                ? 'Detecting your location...'
+                : locStatus === 'denied'
+                  ? 'Location blocked — showing New Delhi timings'
+                  : 'Use my location for exact timings'}
+            </button>
+          )}
         </div>
 
         <div className="panchang-grid">
@@ -219,8 +270,8 @@ export default function PanchangSection() {
         </div>
 
         <p className="panchang-note">
-          Timings are calculated for New Delhi and may vary slightly by city. For precise muhurat for your location
-          and occasion, consult our verified astrologers.
+          Timings are shown in IST for {location.label}. For precise muhurat for your occasion, consult our verified
+          astrologers.
         </p>
       </div>
     </section>
