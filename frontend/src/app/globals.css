@@ -1437,6 +1437,47 @@ button {
   transform: translateY(-2px);
 }
 
+.auth-mode-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  background: var(--color-bg, #f4f2ee);
+  border-radius: 999px;
+  padding: 0.3rem;
+}
+
+.auth-mode-tabs button {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  border: none;
+  border-radius: 999px;
+  background: none;
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--color-text-muted, #777);
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.auth-mode-tabs button.active {
+  background: var(--color-surface);
+  color: var(--gold-dark);
+  box-shadow: var(--shadow-sm);
+}
+
+.otp-sent-hint {
+  font-size: 0.85rem;
+  color: var(--color-text-muted, #666);
+  margin-bottom: 0.25rem;
+}
+
+.otp-resend {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--gold-dark);
+}
+
 .auth-footer-text {
   margin-top: 1.5rem;
   font-size: 0.9rem;
