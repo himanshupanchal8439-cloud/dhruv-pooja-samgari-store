@@ -26,7 +26,6 @@
     "mongoose": "^9.7.4",
     "morgan": "^1.11.0",
     "multer": "^2.2.0",
-    "nodemailer": "^6.9.16",
     "razorpay": "^2.9.6"
   }
 }

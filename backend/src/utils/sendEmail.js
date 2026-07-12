@@ -1,29 +1,23 @@
-const nodemailer = require('nodemailer');
-
-let transporter;
-
-function getTransporter() {
-  if (!transporter) {
-    transporter = nodemailer.createTransport({
-      host: 'smtp.gmail.com',
-      port: 465,
-      secure: true,
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_APP_PASSWORD,
-      },
-    });
-  }
-  return transporter;
-}
-
 async function sendEmail({ to, subject, html }) {
-  await getTransporter().sendMail({
-    from: `"Dhruv Pooja Samagri Store" <${process.env.EMAIL_USER}>`,
-    to,
-    subject,
-    html,
+  const res = await fetch('https://api.brevo.com/v3/smtp/email', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      'api-key': process.env.BREVO_API_KEY,
+    },
+    body: JSON.stringify({
+      sender: { name: 'Dhruv Pooja Samagri Store', email: process.env.EMAIL_USER },
+      to: [{ email: to }],
+      subject,
+      htmlContent: html,
+    }),
   });
+
+  if (!res.ok) {
+    const body = await res.text();
+    throw new Error(`Failed to send email: ${res.status} ${body}`);
+  }
 }
 
 module.exports = sendEmail;
