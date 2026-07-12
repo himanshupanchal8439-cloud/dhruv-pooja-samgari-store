@@ -29,7 +29,7 @@ export default function Navbar() {
     <header className="site-header">
       <nav className="glass-nav-3d">
         <Link href="/" className="brand-3d">
-          <span className="brand-title">Vasishth Pooja</span>
+          <span className="brand-title">Vasishtha Pooja</span>
           <span className="brand-sub">Samagri Store</span>
         </Link>
 

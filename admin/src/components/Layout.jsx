@@ -26,7 +26,7 @@ export default function Layout() {
       </button>
 
       <aside className={`admin-sidebar ${menuOpen ? 'open' : ''}`}>
-        <h2 className="brand">Vasishth Admin</h2>
+        <h2 className="brand">Vasishtha Admin</h2>
         <nav>
           {links
             .filter((l) => l.roles.includes(user.role))

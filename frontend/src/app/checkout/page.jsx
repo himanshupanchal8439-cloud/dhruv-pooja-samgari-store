@@ -103,7 +103,7 @@ export default function Checkout() {
         amount: data.amount,
         currency: data.currency,
         order_id: data.orderId,
-        name: 'Vasishth Pooja Samagri Store',
+        name: 'Vasishtha Pooja Samagri Store',
         description: 'Order Payment',
         prefill: { name: user.name, email: user.email },
         handler: async (response) => {

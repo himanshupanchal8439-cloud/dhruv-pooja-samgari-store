@@ -16,7 +16,7 @@ export async function generateMetadata({ params }) {
 
   const image = product.images?.[0];
   const url = `/products/${slug}`;
-  const description = product.description?.slice(0, 160) || `Buy ${product.name} online at Vasishth Pooja Samagri Store.`;
+  const description = product.description?.slice(0, 160) || `Buy ${product.name} online at Vasishtha Pooja Samagri Store.`;
 
   return {
     title: product.name,

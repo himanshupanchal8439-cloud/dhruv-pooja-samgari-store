@@ -19,7 +19,7 @@ export default function Footer() {
       <div className="footer-inner">
         <div className="footer-grid">
           <div className="footer-col">
-            <h2 className="footer-brand">Vasishth Pooja Samagri</h2>
+            <h2 className="footer-brand">Vasishtha Pooja Samagri</h2>
             <p>
               Bringing ancient traditions to your doorstep. Ethically sourced, spiritually curated, and delivered
               with devotion.
@@ -92,7 +92,7 @@ export default function Footer() {
         </div>
 
         <div className="footer-bottom">
-          <p>© {new Date().getFullYear()} Vasishth Pooja Samagri Store. All Rights Reserved.</p>
+          <p>© {new Date().getFullYear()} Vasishtha Pooja Samagri Store. All Rights Reserved.</p>
           <div className="footer-legal">
             <a href="#">Privacy Policy</a>
             <a href="#">Terms of Service</a>
