@@ -4,7 +4,7 @@ import Link from 'next/link';
 const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
 
 async function getPost(slug) {
-  const res = await fetch(`${API}/blog/${slug}`, { next: { revalidate: 3600 } });
+  const res = await fetch(`${API}/blog/${slug}`, { next: { revalidate: 60 } });
   if (!res.ok) return null;
   return res.json();
 }
