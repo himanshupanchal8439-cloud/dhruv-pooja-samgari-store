@@ -19,11 +19,11 @@ const poppins = Poppins({
 export const metadata = {
   metadataBase: new URL('https://dhruv-pooja-samagri.vercel.app'),
   title: {
-    default: 'Dhruv Pooja Samagri Store | Authentic Puja Samagri, Idols & Havan Kits Online',
-    template: '%s | Dhruv Pooja Samagri Store',
+    default: 'Vasishth Pooja Samagri Store | Authentic Puja Samagri, Idols & Havan Kits Online',
+    template: '%s | Vasishth Pooja Samagri Store',
   },
   description:
-    'Shop authentic puja thalis, idols, incense, havan samagri and diyas online at Dhruv Pooja Samagri Store. Ethically sourced, spiritually curated products delivered across India.',
+    'Shop authentic puja thalis, idols, incense, havan samagri and diyas online at Vasishth Pooja Samagri Store. Ethically sourced, spiritually curated products delivered across India.',
   keywords: [
     'puja samagri online',
     'puja thali set',
@@ -33,13 +33,13 @@ export const metadata = {
     'diyas online',
     'pooja items store',
   ],
-  authors: [{ name: 'Dhruv Pooja Samagri Store' }],
+  authors: [{ name: 'Vasishth Pooja Samagri Store' }],
   robots: { index: true, follow: true },
   alternates: { canonical: '/' },
   openGraph: {
     type: 'website',
-    siteName: 'Dhruv Pooja Samagri Store',
-    title: 'Dhruv Pooja Samagri Store | Authentic Puja Samagri, Idols & Havan Kits Online',
+    siteName: 'Vasishth Pooja Samagri Store',
+    title: 'Vasishth Pooja Samagri Store | Authentic Puja Samagri, Idols & Havan Kits Online',
     description:
       'Shop authentic puja thalis, idols, incense, havan samagri and diyas online. Ethically sourced, spiritually curated, delivered with devotion.',
     url: '/',
@@ -47,7 +47,7 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Dhruv Pooja Samagri Store | Authentic Puja Samagri Online',
+    title: 'Vasishth Pooja Samagri Store | Authentic Puja Samagri Online',
     description:
       'Shop authentic puja thalis, idols, incense, havan samagri and diyas online. Ethically sourced, spiritually curated, delivered with devotion.',
     images: ['/images/astrologer.png'],
@@ -66,7 +66,7 @@ export default function RootLayout({ children }) {
             __html: JSON.stringify({
               '@context': 'https://schema.org',
               '@type': 'Store',
-              name: 'Dhruv Pooja Samagri Store',
+              name: 'Vasishth Pooja Samagri Store',
               description: 'Authentic puja samagri, idols, incense, havan kits and diyas delivered across India.',
               url: 'https://dhruv-pooja-samagri.vercel.app/',
               image: 'https://dhruv-pooja-samagri.vercel.app/images/astrologer.png',

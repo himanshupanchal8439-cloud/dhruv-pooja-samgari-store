@@ -5,7 +5,7 @@ const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
 export const metadata = {
   title: 'Blog - Puja Vidhi, Festival Guides & Rituals',
   description:
-    'Read guides on puja vidhi, festival rituals, griha pravesh samagri lists and more from Dhruv Pooja Samagri Store.',
+    'Read guides on puja vidhi, festival rituals, griha pravesh samagri lists and more from Vasishth Pooja Samagri Store.',
 };
 
 async function getPosts() {

@@ -101,7 +101,7 @@ async function run() {
         {
           name: p.name,
           slug,
-          description: `${p.name} — authentic quality puja essential from Dhruv Pooja Samagri Store.`,
+          description: `${p.name} — authentic quality puja essential from Vasishth Pooja Samagri Store.`,
           category: category._id,
           price: p.price,
           compareAtPrice: p.mrp || null,
@@ -109,7 +109,7 @@ async function run() {
           images: [img(p.keyword, seedSeed)],
           isActive: true,
           metaTitle: p.name,
-          metaDescription: `Buy ${p.name} online at Dhruv Pooja Samagri Store.`,
+          metaDescription: `Buy ${p.name} online at Vasishth Pooja Samagri Store.`,
           ...rating(seedSeed),
         },
         { upsert: true, returnDocument: 'after' }

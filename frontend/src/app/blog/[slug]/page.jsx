@@ -54,7 +54,7 @@ export default async function BlogPostPage({ params }) {
     datePublished: post.createdAt,
     dateModified: post.updatedAt,
     inLanguage: post.language,
-    publisher: { '@type': 'Organization', name: 'Dhruv Pooja Samagri Store' },
+    publisher: { '@type': 'Organization', name: 'Vasishth Pooja Samagri Store' },
   };
 
   return (

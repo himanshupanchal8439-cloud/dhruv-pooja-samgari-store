@@ -7,7 +7,7 @@ async function sendEmail({ to, subject, html }) {
       'api-key': process.env.BREVO_API_KEY,
     },
     body: JSON.stringify({
-      sender: { name: 'Dhruv Pooja Samagri Store', email: process.env.EMAIL_USER },
+      sender: { name: 'Vasishth Pooja Samagri Store', email: process.env.EMAIL_USER },
       to: [{ email: to }],
       subject,
       htmlContent: html,

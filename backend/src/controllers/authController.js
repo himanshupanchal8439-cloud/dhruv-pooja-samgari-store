@@ -69,7 +69,7 @@ async function sendOtp(req, res, next) {
 
     await sendEmail({
       to: email,
-      subject: 'Your Dhruv Pooja Samagri Store login code',
+      subject: 'Your Vasishth Pooja Samagri Store login code',
       html: `<p>Your one-time login code is:</p><h2 style="letter-spacing:4px">${code}</h2><p>This code expires in 5 minutes. If you didn't request this, you can ignore this email.</p>`,
     });
 
