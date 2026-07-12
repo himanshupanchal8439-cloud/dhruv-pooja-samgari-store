@@ -28,6 +28,11 @@ export default function Navbar() {
   return (
     <header className="site-header">
       <nav className="glass-nav-3d">
+        <Link href="/" className="brand-3d">
+          <span className="brand-title">Dhruv Pooja</span>
+          <span className="brand-sub">Samagri Store</span>
+        </Link>
+
         <div className="nav-links-left">
           {categories.slice(0, 3).map((c) => (
             <Link key={c._id} href={`/products?category=${c._id}`} className="nav-chip">
@@ -35,11 +40,6 @@ export default function Navbar() {
             </Link>
           ))}
         </div>
-
-        <Link href="/" className="brand-3d">
-          <span className="brand-title">Dhruv Pooja</span>
-          <span className="brand-sub">Samagri Store</span>
-        </Link>
 
         <div className="nav-actions">
           <button className="nav-item-3d nav-icon-btn" onClick={() => setMenuOpen((v) => !v)} aria-label="Search">

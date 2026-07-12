@@ -150,6 +150,7 @@ button {
 .nav-links-left {
   display: none;
   align-items: center;
+  justify-content: center;
   gap: 1.25rem;
   flex: 1;
 }
@@ -207,6 +208,14 @@ button {
   flex-direction: column;
   align-items: center;
   font-family: var(--font-cinzel);
+}
+
+@media (min-width: 1024px) {
+  .brand-3d {
+    flex: 0 0 auto;
+    align-items: flex-start;
+    padding-left: 0.5rem;
+  }
 }
 
 .brand-title {
