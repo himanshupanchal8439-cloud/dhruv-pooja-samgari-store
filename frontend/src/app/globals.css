@@ -1254,7 +1254,7 @@ html[lang='hi'] .hero-title {
 
 /* FAQ */
 .faq-list {
-  max-width: 760px;
+  max-width: 1000px;
   margin: 2rem auto 0;
   display: flex;
   flex-direction: column;
@@ -1302,7 +1302,7 @@ html[lang='hi'] .hero-title {
 
 /* Policy pages (Privacy / Terms) */
 .policy-content {
-  max-width: 760px;
+  max-width: 1000px;
   margin: 2rem auto 0;
 }
 
