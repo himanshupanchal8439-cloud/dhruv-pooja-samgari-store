@@ -1,8 +1,8 @@
 import PolicyContent from '../../components/PolicyContent';
 
 export const metadata = {
-  title: 'Privacy Policy - Vasishtha Pooja Samagri Store',
-  description: 'How Vasishtha Pooja Samagri Store collects, uses, and protects your personal information.',
+  title: 'Privacy Policy - Vashishtha Spiritual Store',
+  description: 'How Vashishtha Spiritual Store collects, uses, and protects your personal information.',
 };
 
 export default function PrivacyPolicyPage() {

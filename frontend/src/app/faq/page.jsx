@@ -1,7 +1,7 @@
 import FaqAccordion from '../../components/FaqAccordion';
 
 export const metadata = {
-  title: 'FAQ - Vasishtha Pooja Samagri Store',
+  title: 'FAQ - Vashishtha Spiritual Store',
   description:
     'Answers to common questions about payment, shipping, order tracking, coupons, Hindi language support, astrology consultations, and daily panchang.',
 };

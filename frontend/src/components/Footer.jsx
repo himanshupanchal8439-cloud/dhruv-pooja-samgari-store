@@ -21,7 +21,7 @@ export default function Footer() {
       <div className="footer-inner">
         <div className="footer-grid">
           <div className="footer-col">
-            <h2 className="footer-brand">Vasishtha Pooja Samagri</h2>
+            <h2 className="footer-brand">Vashishtha Spiritual Store</h2>
             <p>{t('footerDesc')}</p>
             <div className="footer-social">
               <a href="#" aria-label="Instagram">

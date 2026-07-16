@@ -117,7 +117,7 @@ export const translations = {
     faqA9: 'Reach out to us via the Contact Us page or your registered email, and our team will help resolve it as quickly as possible.',
     // Privacy Policy page
     privacyHeading: 'Privacy Policy',
-    privacyIntro: 'This policy explains what information we collect and how we use it when you use Vasishtha Pooja Samagri Store.',
+    privacyIntro: 'This policy explains what information we collect and how we use it when you use Vashishtha Spiritual Store.',
     privacyS1h: 'Information We Collect',
     privacyS1b: 'When you create an account, place an order, or contact us, we collect your name, email address, phone number, and shipping address. We do not store your card or payment details — these are handled securely by Razorpay.',
     privacyS2h: 'How We Use Your Information',
@@ -134,7 +134,7 @@ export const translations = {
     privacyS7b: 'We may update this Privacy Policy from time to time. Continued use of the site after changes means you accept the updated policy.',
     // Terms of Service page
     termsHeading: 'Terms of Service',
-    termsIntro: 'These terms govern your use of Vasishtha Pooja Samagri Store. By using this website, you agree to them.',
+    termsIntro: 'These terms govern your use of Vashishtha Spiritual Store. By using this website, you agree to them.',
     termsS1h: 'Acceptance of Terms',
     termsS1b: 'By using this website and placing an order, you agree to these Terms of Service. If you do not agree, please do not use the site.',
     termsS2h: 'Products & Pricing',
@@ -166,7 +166,7 @@ export const translations = {
     contactError: 'Something went wrong. Please try again in a moment.',
     subscribe: 'Subscribe',
     subscribed: 'Subscribed ✓',
-    storeName: 'Vasishtha Pooja Samagri Store',
+    storeName: 'Vashishtha Spiritual Store',
     rights: 'All Rights Reserved.',
     privacy: 'Privacy Policy',
     terms: 'Terms of Service',
@@ -345,7 +345,7 @@ export const translations = {
     faqA9: 'हमसे Contact Us पेज या अपनी रजिस्टर्ड ईमेल के ज़रिए संपर्क करें, हमारी टीम जल्द से जल्द समाधान करेगी।',
     // Privacy Policy page
     privacyHeading: 'गोपनीयता नीति',
-    privacyIntro: 'यह नीति बताती है कि जब आप वशिष्ठ पूजा सामग्री स्टोर का उपयोग करते हैं तो हम कौन सी जानकारी एकत्र करते हैं और उसका उपयोग कैसे करते हैं।',
+    privacyIntro: 'यह नीति बताती है कि जब आप वशिष्ठ आध्यात्मिक स्टोर का उपयोग करते हैं तो हम कौन सी जानकारी एकत्र करते हैं और उसका उपयोग कैसे करते हैं।',
     privacyS1h: 'हम कौन सी जानकारी एकत्र करते हैं',
     privacyS1b: 'जब आप अकाउंट बनाते हैं, ऑर्डर करते हैं, या हमसे संपर्क करते हैं, तो हम आपका नाम, ईमेल, फ़ोन नंबर और शिपिंग पता एकत्र करते हैं। हम आपके कार्ड या भुगतान विवरण संग्रहीत नहीं करते — इन्हें सुरक्षित रूप से Razorpay संभालता है।',
     privacyS2h: 'हम आपकी जानकारी का उपयोग कैसे करते हैं',
@@ -362,7 +362,7 @@ export const translations = {
     privacyS7b: 'हम समय-समय पर इस गोपनीयता नीति को अपडेट कर सकते हैं। बदलावों के बाद साइट का उपयोग जारी रखने का मतलब है कि आप अपडेटेड नीति स्वीकार करते हैं।',
     // Terms of Service page
     termsHeading: 'सेवा की शर्तें',
-    termsIntro: 'ये शर्तें वशिष्ठ पूजा सामग्री स्टोर के उपयोग को नियंत्रित करती हैं। इस वेबसाइट का उपयोग करके, आप इन्हें स्वीकार करते हैं।',
+    termsIntro: 'ये शर्तें वशिष्ठ आध्यात्मिक स्टोर के उपयोग को नियंत्रित करती हैं। इस वेबसाइट का उपयोग करके, आप इन्हें स्वीकार करते हैं।',
     termsS1h: 'शर्तों की स्वीकृति',
     termsS1b: 'इस वेबसाइट का उपयोग करके और ऑर्डर देकर, आप इन सेवा की शर्तों से सहमत होते हैं। यदि आप सहमत नहीं हैं, तो कृपया इस साइट का उपयोग न करें।',
     termsS2h: 'उत्पाद और मूल्य',
@@ -394,7 +394,7 @@ export const translations = {
     contactError: 'कुछ गड़बड़ हो गई। कृपया थोड़ी देर बाद फिर से कोशिश करें।',
     subscribe: 'सब्सक्राइब करें',
     subscribed: 'सब्सक्राइब हो गया ✓',
-    storeName: 'वशिष्ठ पूजा सामग्री स्टोर',
+    storeName: 'वशिष्ठ आध्यात्मिक स्टोर',
     rights: 'सर्वाधिकार सुरक्षित।',
     privacy: 'गोपनीयता नीति',
     terms: 'सेवा की शर्तें',
