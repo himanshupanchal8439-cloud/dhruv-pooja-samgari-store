@@ -57,6 +57,10 @@ export const translations = {
     // Awards
     recognitions: 'Recognitions & Media',
     trustHeading: 'Trust In Every Detail',
+    brandOfYear: 'Brand of the Year',
+    brandOfYearText: 'Voted #1 in spiritual commerce category.',
+    annualGala: 'Annual Gala 2025',
+    annualGalaText: 'Highlight reel from our recent award ceremony.',
     // Panchang
     panchangEyebrow: 'Aaj Ka Panchang',
     panchangHeading: 'Daily Panchang & Shubh Muhurat',
@@ -213,6 +217,10 @@ export const translations = {
     // Awards
     recognitions: 'मान्यताएँ और मीडिया',
     trustHeading: 'हर विवरण में विश्वास',
+    brandOfYear: 'वर्ष का ब्रांड',
+    brandOfYearText: 'आध्यात्मिक वाणिज्य श्रेणी में #1 चुना गया।',
+    annualGala: 'वार्षिक गाला 2025',
+    annualGalaText: 'हमारे हाल के पुरस्कार समारोह की झलकियाँ।',
     // Panchang
     panchangEyebrow: 'आज का पंचांग',
     panchangHeading: 'दैनिक पंचांग और शुभ मुहूर्त',

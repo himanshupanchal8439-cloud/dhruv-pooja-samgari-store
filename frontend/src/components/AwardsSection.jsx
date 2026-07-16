@@ -5,25 +5,27 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useLanguage } from '../context/LanguageContext';
 
-const awards = [
-  {
-    type: 'image',
-    image: 'https://loremflickr.com/600/400/trophy,award?lock=302',
-    title: 'Brand of the Year',
-    text: 'Voted #1 in spiritual commerce category.',
-  },
-  {
-    type: 'video',
-    poster: 'https://loremflickr.com/600/400/celebration,event?lock=303',
-    src: 'https://www.w3schools.com/html/mov_bbb.mp4',
-    title: 'Annual Gala 2025',
-    text: 'Highlight reel from our recent award ceremony.',
-  },
-];
-
 export default function AwardsSection() {
   const sectionRef = useRef();
   const { t } = useLanguage();
+
+  const awards = [
+    {
+      key: 'brandOfYear',
+      type: 'image',
+      image: 'https://loremflickr.com/600/400/trophy,award?lock=302',
+      title: t('brandOfYear'),
+      text: t('brandOfYearText'),
+    },
+    {
+      key: 'annualGala',
+      type: 'video',
+      poster: 'https://loremflickr.com/600/400/celebration,event?lock=303',
+      src: 'https://www.w3schools.com/html/mov_bbb.mp4',
+      title: t('annualGala'),
+      text: t('annualGalaText'),
+    },
+  ];
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -53,7 +55,7 @@ export default function AwardsSection() {
 
         <div className="awards-grid">
           {awards.map((a) => (
-            <div key={a.title} className="gallery-card">
+            <div key={a.key} className="gallery-card">
               <div className="gallery-media">
                 {a.type === 'video' ? (
                   <video autoPlay loop muted playsInline poster={a.poster}>
