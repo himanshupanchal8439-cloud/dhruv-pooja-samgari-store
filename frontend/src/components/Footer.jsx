@@ -43,9 +43,6 @@ export default function Footer() {
                 <Link href="/products?category=6a529039732ae6e6eb7f0a68">{t('templeIdols')}</Link>
               </li>
               <li>
-                <Link href="/products">{t('rudrakshaMalas')}</Link>
-              </li>
-              <li>
                 <Link href="/products">{t('divineSamagri')}</Link>
               </li>
               <li>

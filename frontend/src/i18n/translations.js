@@ -83,7 +83,6 @@ export const translations = {
     footerDesc:
       'Bringing ancient traditions to your doorstep. Ethically sourced, spiritually curated, and delivered with devotion.',
     templeIdols: 'Temple Idols',
-    rudrakshaMalas: 'Rudraksha Malas',
     divineSamagri: 'Divine Samagri',
     astrologyServices: 'Astrology Services',
     pujaGuides: 'Puja Guides & Blog',
@@ -263,7 +262,6 @@ export const translations = {
     // Footer
     footerDesc: 'प्राचीन परंपराएँ आपके द्वार तक। शुद्धता से चुनी गई, श्रद्धा के साथ वितरित।',
     templeIdols: 'मंदिर मूर्तियाँ',
-    rudrakshaMalas: 'रुद्राक्ष मालाएँ',
     divineSamagri: 'दिव्य सामग्री',
     astrologyServices: 'ज्योतिष सेवाएँ',
     pujaGuides: 'पूजा गाइड और ब्लॉग',
