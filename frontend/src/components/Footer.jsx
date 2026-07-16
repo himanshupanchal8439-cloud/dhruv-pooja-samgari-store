@@ -3,17 +3,24 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useLanguage } from '../context/LanguageContext';
+import api from '../api/client';
 
 export default function Footer() {
   const [email, setEmail] = useState('');
-  const [subscribed, setSubscribed] = useState(false);
+  const [status, setStatus] = useState('idle'); // idle | sending | subscribed | error
   const { t } = useLanguage();
 
-  function handleSubscribe(e) {
+  async function handleSubscribe(e) {
     e.preventDefault();
     if (!email) return;
-    setSubscribed(true);
-    setEmail('');
+    setStatus('sending');
+    try {
+      await api.post('/subscribers', { email });
+      setStatus('subscribed');
+      setEmail('');
+    } catch {
+      setStatus('error');
+    }
   }
 
   return (
@@ -81,9 +88,13 @@ export default function Footer() {
                 placeholder={t('emailPlaceholder')}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                disabled={status === 'sending' || status === 'subscribed'}
               />
-              <button type="submit">{subscribed ? t('subscribed') : t('subscribe')}</button>
+              <button type="submit" disabled={status === 'sending' || status === 'subscribed'}>
+                {status === 'sending' ? t('subscribing') : status === 'subscribed' ? t('subscribed') : t('subscribe')}
+              </button>
             </form>
+            {status === 'error' && <p className="contact-form-msg contact-form-error">{t('subscribeError')}</p>}
           </div>
         </div>
 
