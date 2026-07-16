@@ -40,7 +40,7 @@ export default function Footer() {
             <h4>{t('sacredCollections')}</h4>
             <ul>
               <li>
-                <Link href="/products">{t('templeIdols')}</Link>
+                <Link href="/products?category=6a529039732ae6e6eb7f0a68">{t('templeIdols')}</Link>
               </li>
               <li>
                 <Link href="/products">{t('rudrakshaMalas')}</Link>
