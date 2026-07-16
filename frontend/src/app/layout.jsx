@@ -1,4 +1,4 @@
-import { Cinzel, Poppins } from 'next/font/google';
+import { Cinzel, Poppins, Noto_Sans_Devanagari } from 'next/font/google';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import Providers from './providers';
@@ -14,6 +14,12 @@ const poppins = Poppins({
   subsets: ['latin'],
   weight: ['300', '400', '500', '600'],
   variable: '--font-body',
+});
+
+const notoDevanagari = Noto_Sans_Devanagari({
+  subsets: ['devanagari'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-hindi',
 });
 
 export const metadata = {
@@ -57,7 +63,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${cinzel.variable} ${poppins.variable}`}>
+    <html lang="en" className={`${cinzel.variable} ${poppins.variable} ${notoDevanagari.variable}`}>
       <head>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
         <script

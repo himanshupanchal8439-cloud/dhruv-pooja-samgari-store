@@ -9,7 +9,7 @@ import ProductCard from './ProductCard';
 import { useLanguage } from '../context/LanguageContext';
 
 export default function HomeSections({ categories, products }) {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   useEffect(() => {
     if (!products.length) return;
     gsap.registerPlugin(ScrollTrigger);
@@ -39,7 +39,7 @@ export default function HomeSections({ categories, products }) {
           <div className="category-grid">
             {categories.map((c) => (
               <Link key={c._id} href={`/products?category=${c._id}`} className="category-item">
-                <i className="fa-solid fa-fire" /> {c.name}
+                <i className="fa-solid fa-fire" /> {lang === 'hi' && c.nameHi ? c.nameHi : c.name}
               </Link>
             ))}
           </div>

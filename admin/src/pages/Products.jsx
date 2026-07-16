@@ -3,8 +3,10 @@ import api from '../api/client';
 
 const emptyForm = {
   name: '',
+  nameHi: '',
   slug: '',
   description: '',
+  descriptionHi: '',
   category: '',
   price: '',
   compareAtPrice: '',
@@ -128,8 +130,10 @@ export default function Products() {
     setEditingId(p._id);
     setForm({
       name: p.name,
+      nameHi: p.nameHi || '',
       slug: p.slug,
       description: p.description || '',
+      descriptionHi: p.descriptionHi || '',
       category: p.category?._id || '',
       price: p.price,
       compareAtPrice: p.compareAtPrice || '',
@@ -153,6 +157,7 @@ export default function Products() {
         <h3>{editingId ? 'Edit Product' : 'Add Product'}</h3>
         <div className="form-grid">
           <input placeholder="Name" required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
+          <input placeholder="Name (Hindi)" value={form.nameHi} onChange={(e) => setForm({ ...form, nameHi: e.target.value })} />
           <input placeholder="Slug" required value={form.slug} onChange={(e) => setForm({ ...form, slug: e.target.value })} />
           <select required value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })}>
             <option value="">Select Category</option>
@@ -228,6 +233,7 @@ export default function Products() {
         )}
 
         <textarea placeholder="Description" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} />
+        <textarea placeholder="Description (Hindi)" value={form.descriptionHi} onChange={(e) => setForm({ ...form, descriptionHi: e.target.value })} />
         {error && <p className="error">{error}</p>}
         <div className="form-actions">
           <button type="submit" className="cta-btn">

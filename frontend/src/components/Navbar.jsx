@@ -38,7 +38,7 @@ export default function Navbar() {
         <div className="nav-links-left">
           {categories.slice(0, 3).map((c) => (
             <Link key={c._id} href={`/products?category=${c._id}`} className="nav-chip">
-              <i className="fa-solid fa-fire" /> {c.name}
+              <i className="fa-solid fa-fire" /> {lang === 'hi' && c.nameHi ? c.nameHi : c.name}
             </Link>
           ))}
         </div>

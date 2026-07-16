@@ -7,7 +7,9 @@ import { useLanguage } from '../context/LanguageContext';
 
 export default function ProductCard({ product }) {
   const cardRef = useRef();
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
+  const name = lang === 'hi' && product.nameHi ? product.nameHi : product.name;
+  const description = lang === 'hi' && product.descriptionHi ? product.descriptionHi : product.description;
   const hasDiscount = product.compareAtPrice && product.compareAtPrice > product.price;
   const discountPercent = hasDiscount
     ? Math.round(((product.compareAtPrice - product.price) / product.compareAtPrice) * 100)
@@ -37,12 +39,12 @@ export default function ProductCard({ product }) {
           <img src={product.images?.[0] || 'https://loremflickr.com/600/400/puja'} alt={product.name} loading="lazy" />
         </div>
         <div className="card-text">
-          <h3>{product.name}</h3>
+          <h3>{name}</h3>
           <div className="card-price-row">
             <span className="price">₹{product.price}</span>
             {hasDiscount && <span className="mrp">₹{product.compareAtPrice}</span>}
           </div>
-          <p>{product.description}</p>
+          <p>{description}</p>
         </div>
         <Link href={`/products/${product.slug}`} className="btn-premium">
           {t('viewDetails')}

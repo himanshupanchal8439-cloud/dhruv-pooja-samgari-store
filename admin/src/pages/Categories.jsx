@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import api from '../api/client';
 
-const emptyForm = { name: '', slug: '', description: '', image: '' };
+const emptyForm = { name: '', nameHi: '', slug: '', description: '', image: '' };
 
 function slugify(text) {
   return text
@@ -60,7 +60,7 @@ export default function Categories() {
 
   function startEdit(c) {
     setEditingId(c._id);
-    setForm({ name: c.name, slug: c.slug, description: c.description || '', image: c.image || '' });
+    setForm({ name: c.name, nameHi: c.nameHi || '', slug: c.slug, description: c.description || '', image: c.image || '' });
   }
 
   function cancelEdit() {
@@ -90,6 +90,7 @@ export default function Categories() {
               setForm((f) => ({ ...f, name, slug: editingId ? f.slug : slugify(name) }));
             }}
           />
+          <input placeholder="Name (Hindi)" value={form.nameHi} onChange={(e) => setForm({ ...form, nameHi: e.target.value })} />
           <input placeholder="Slug" required value={form.slug} onChange={(e) => setForm({ ...form, slug: e.target.value })} />
         </div>
 

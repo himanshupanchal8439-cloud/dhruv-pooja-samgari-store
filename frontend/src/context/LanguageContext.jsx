@@ -13,6 +13,10 @@ export function LanguageProvider({ children }) {
     if (saved === 'hi' || saved === 'en') setLang(saved);
   }, []);
 
+  useEffect(() => {
+    document.documentElement.setAttribute('lang', lang);
+  }, [lang]);
+
   function switchLang(next) {
     setLang(next);
     localStorage.setItem('lang', next);

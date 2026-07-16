@@ -14,8 +14,10 @@ const variantSchema = new mongoose.Schema(
 const productSchema = new mongoose.Schema(
   {
     name: { type: String, required: true, trim: true, index: true },
+    nameHi: { type: String, trim: true },
     slug: { type: String, required: true, unique: true, index: true },
     description: String,
+    descriptionHi: String,
     category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: true, index: true },
     images: [String],
     videos: [String],
