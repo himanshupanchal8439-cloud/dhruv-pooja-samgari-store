@@ -92,8 +92,8 @@ export default function Footer() {
             © {new Date().getFullYear()} {t('storeName')}. {t('rights')}
           </p>
           <div className="footer-legal">
-            <a href="#">{t('privacy')}</a>
-            <a href="#">{t('terms')}</a>
+            <Link href="/privacy-policy">{t('privacy')}</Link>
+            <Link href="/terms">{t('terms')}</Link>
           </div>
         </div>
       </div>
