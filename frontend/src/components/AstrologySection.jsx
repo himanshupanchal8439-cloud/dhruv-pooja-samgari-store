@@ -148,7 +148,7 @@ export default function AstrologySection() {
           ))}
         </div>
 
-        <div className="astro-banner">
+        <div className="astro-banner" id="talk-to-astrologer">
           <div className="astro-banner-text">
             {isLive ? (
               <span className="astro-live-badge">

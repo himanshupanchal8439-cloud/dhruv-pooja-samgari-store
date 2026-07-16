@@ -49,7 +49,7 @@ export default function Footer() {
                 <Link href="/products">{t('divineSamagri')}</Link>
               </li>
               <li>
-                <Link href="/products">{t('astrologyServices')}</Link>
+                <Link href="/#talk-to-astrologer">{t('astrologyServices')}</Link>
               </li>
               <li>
                 <Link href="/blog">{t('pujaGuides')}</Link>
