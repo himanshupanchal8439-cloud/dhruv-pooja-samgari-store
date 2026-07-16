@@ -1,6 +1,16 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { useLanguage } from '../../context/LanguageContext';
+import {
+  zodiacNamesHi,
+  elementNamesHi,
+  lordNamesHi,
+  planetNamesHi,
+  nakshatraNamesHi,
+  zodiacTraitsHi,
+  houseNamesHi,
+} from '../../utils/vedicNames';
 
 const zodiacSigns = [
   { key: 'Makar', name: 'Makar (Capricorn)', from: [12, 22], to: [1, 19], element: 'Earth', lord: 'Shani (Saturn)', trait: 'Disciplined, practical and ambitious. You value structure and long-term goals.' },
@@ -114,6 +124,8 @@ function buildChart(form, signIndex) {
 }
 
 export default function Kundli() {
+  const { t, lang } = useLanguage();
+  const isHi = lang === 'hi';
   const [form, setForm] = useState({ name: '', dob: '', hour: '', minute: '', period: 'AM', place: '' });
   const [result, setResult] = useState(null);
   const [placeSuggestions, setPlaceSuggestions] = useState([]);
@@ -178,30 +190,27 @@ export default function Kundli() {
       <div className="kundli-inner">
         <div className="astro-header">
           <h3 className="astro-eyebrow">
-            <i className="fa-solid fa-scroll" /> Free Reading
+            <i className="fa-solid fa-scroll" /> {t('freeReading')}
           </h3>
-          <h2 className="astro-title">Janam Kundli</h2>
-          <p className="astro-desc">
-            Enter your birth details to see your illustrative Vedic birth chart. For an astronomically precise
-            Kundli with exact planetary positions and dasha, connect with our verified astrologers.
-          </p>
+          <h2 className="astro-title">{t('janamKundli')}</h2>
+          <p className="astro-desc">{t('kundliDesc')}</p>
         </div>
 
         {!result ? (
           <form className="kundli-form" onSubmit={handleSubmit}>
             <input
-              placeholder="Your Name"
+              placeholder={t('yourNamePlaceholder')}
               required
               value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
             />
             <div className="kundli-form-row">
               <label>
-                Date of Birth
+                {t('dateOfBirth')}
                 <input type="date" required value={form.dob} onChange={(e) => setForm({ ...form, dob: e.target.value })} />
               </label>
               <label>
-                Time of Birth (optional)
+                {t('timeOfBirthOptional')}
                 <div className="kundli-time-row">
                   <select value={form.hour} onChange={(e) => setForm({ ...form, hour: e.target.value })}>
                     <option value="">HH</option>
@@ -228,7 +237,7 @@ export default function Kundli() {
             </div>
             <div className="kundli-place-wrap">
               <input
-                placeholder="Place of Birth (optional)"
+                placeholder={t('placeOfBirthOptional')}
                 value={form.place}
                 onChange={(e) => handlePlaceChange(e.target.value)}
                 onFocus={() => setShowSuggestions(true)}
@@ -237,7 +246,7 @@ export default function Kundli() {
               />
               {showSuggestions && (placeLoading || placeSuggestions.length > 0) && (
                 <ul className="kundli-place-suggestions">
-                  {placeLoading && <li className="kundli-place-loading">Searching...</li>}
+                  {placeLoading && <li className="kundli-place-loading">{t('searchingPlaces')}</li>}
                   {!placeLoading &&
                     placeSuggestions.map((s) => (
                       <li key={s.place_id} onMouseDown={() => selectPlace(s)}>
@@ -248,7 +257,7 @@ export default function Kundli() {
               )}
             </div>
             <button type="submit" className="btn-astro kundli-submit">
-              <i className="fa-solid fa-star" /> Generate My Kundli
+              <i className="fa-solid fa-star" /> {t('generateKundliBtn')}
             </button>
           </form>
         ) : (
@@ -257,41 +266,42 @@ export default function Kundli() {
               <i className="fa-solid fa-sun" />
             </div>
             <h3>
-              {result.name ? `${result.name}'s` : 'Your'} Rashi is {result.sign?.name}
+              {result.name ? `${result.name} ${t('kundliRashiNamed')}` : t('kundliRashiDefault')}{' '}
+              {isHi ? zodiacNamesHi[result.sign?.key] : result.sign?.name}
             </h3>
 
             <div className="kundli-stats">
               <div className="kundli-stat">
-                <span>Element</span>
-                <strong>{result.sign?.element}</strong>
+                <span>{t('element')}</span>
+                <strong>{isHi ? elementNamesHi[result.sign?.element] : result.sign?.element}</strong>
               </div>
               <div className="kundli-stat">
-                <span>Rashi Lord</span>
-                <strong>{result.sign?.lord}</strong>
+                <span>{t('rashiLord')}</span>
+                <strong>{isHi ? lordNamesHi[result.sign?.lord] : result.sign?.lord}</strong>
               </div>
               <div className="kundli-stat">
-                <span>Nakshatra</span>
-                <strong>{result.nakshatra}</strong>
+                <span>{t('nakshatraLabel')}</span>
+                <strong>{isHi ? nakshatraNamesHi[nakshatras.indexOf(result.nakshatra)] : result.nakshatra}</strong>
               </div>
               <div className="kundli-stat">
-                <span>Date of Birth</span>
+                <span>{t('dateOfBirthStat')}</span>
                 <strong>{result.dob}</strong>
               </div>
               {result.time && (
                 <div className="kundli-stat">
-                  <span>Time of Birth</span>
+                  <span>{t('timeOfBirthStat')}</span>
                   <strong>{result.time}</strong>
                 </div>
               )}
               {result.place && (
                 <div className="kundli-stat kundli-stat-wide">
-                  <span>Place of Birth</span>
+                  <span>{t('placeOfBirthStat')}</span>
                   <strong>{result.place}</strong>
                 </div>
               )}
             </div>
 
-            <h4 className="kundli-section-title">Birth Chart (Rashi Chakra)</h4>
+            <h4 className="kundli-section-title">{t('birthChartTitle')}</h4>
             <div className="kundli-chart">
               {chartLayout.map((cell) => {
                 const isLagna = cell.key === result.sign.key;
@@ -302,7 +312,7 @@ export default function Kundli() {
                     className={`kundli-chart-cell ${isLagna ? 'lagna' : ''}`}
                     style={{ gridRow: cell.row, gridColumn: cell.col }}
                   >
-                    <span className="kundli-chart-sign">{cell.key}</span>
+                    <span className="kundli-chart-sign">{isHi ? zodiacNamesHi[cell.key] : cell.key}</span>
                     {isLagna && <span className="kundli-chart-lagna-tag">LAGNA</span>}
                     <div className="kundli-chart-planets">
                       {planetsHere.map((p) => (
@@ -319,34 +329,29 @@ export default function Kundli() {
               </div>
             </div>
             <p className="kundli-chart-legend">
-              Su Surya · Mo Chandra · Ma Mangal · Me Budh · Ju Guru · Ve Shukra · Sa Shani · Ra Rahu · Ke Ketu
+              {grahas.map((g) => `${g.key} ${isHi ? planetNamesHi[g.key] : g.name.split(' ')[0]}`).join(' · ')}
             </p>
 
-            <h4 className="kundli-section-title">Houses Overview</h4>
+            <h4 className="kundli-section-title">{t('housesOverviewTitle')}</h4>
             <div className="kundli-houses">
               {houseNames.map((h, i) => (
                 <div key={h} className="kundli-house">
                   <span className="kundli-house-number">{i + 1}</span>
-                  <span>{h}</span>
+                  <span>{isHi ? houseNamesHi[i] : h}</span>
                 </div>
               ))}
             </div>
 
-            <h4 className="kundli-section-title">Your Nature</h4>
-            <p className="kundli-trait">{result.sign?.trait}</p>
+            <h4 className="kundli-section-title">{t('yourNatureTitle')}</h4>
+            <p className="kundli-trait">{isHi ? zodiacTraitsHi[result.sign?.key] : result.sign?.trait}</p>
 
-            <p className="kundli-disclaimer">
-              This chart is generated using your Sun sign for illustration and simplified logic for planetary
-              placement — it is not calculated from real astronomical ephemeris data. For an astronomically accurate
-              Vedic Janam Kundli with nakshatra pada, dasha and yogas based on your exact birth time and place, talk
-              to one of our verified astrologers.
-            </p>
+            <p className="kundli-disclaimer">{t('kundliDisclaimer')}</p>
             <div className="kundli-result-actions">
               <a href="https://wa.me/919876543210" target="_blank" rel="noopener noreferrer" className="btn-astro">
-                <i className="fa-solid fa-comment-dots" /> Talk to Astrologer
+                <i className="fa-solid fa-comment-dots" /> {t('talkToAstrologer')}
               </a>
               <button className="btn-astro btn-astro-outline" onClick={reset}>
-                Check Another
+                {t('checkAnother')}
               </button>
             </div>
           </div>
