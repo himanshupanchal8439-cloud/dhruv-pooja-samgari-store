@@ -59,6 +59,8 @@ export const translations = {
     trustHeading: 'Trust In Every Detail',
     brandOfYear: 'Star Icon Award – 2022',
     brandOfYearText: "Presented at the All India Astrologers' Conclave & Silver Jubilee Year Award Ceremony by Modern Astro Research Society (MARS), Gwalior.",
+    annualGala: 'Annual Gala 2025',
+    annualGalaText: 'Highlight reel from our recent award ceremony.',
     // Panchang
     panchangEyebrow: 'Aaj Ka Panchang',
     panchangHeading: 'Daily Panchang & Shubh Muhurat',
@@ -332,6 +334,8 @@ export const translations = {
     trustHeading: 'हर विवरण में विश्वास',
     brandOfYear: 'स्टार आइकन अवार्ड – 2022',
     brandOfYearText: 'ऑल इंडिया एस्ट्रोलॉजर्स कॉन्क्लेव और सिल्वर जुबली ईयर अवार्ड सेरेमनी में मॉडर्न एस्ट्रो रिसर्च सोसाइटी (MARS), ग्वालियर द्वारा प्रदान किया गया।',
+    annualGala: 'वार्षिक गाला 2025',
+    annualGalaText: 'हमारे हाल के पुरस्कार समारोह की झलकियाँ।',
     // Panchang
     panchangEyebrow: 'आज का पंचांग',
     panchangHeading: 'दैनिक पंचांग और शुभ मुहूर्त',

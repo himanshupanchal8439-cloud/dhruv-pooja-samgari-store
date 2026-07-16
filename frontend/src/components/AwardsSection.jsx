@@ -27,6 +27,14 @@ export default function AwardsSection() {
       title: t('brandOfYear'),
       text: t('brandOfYearText'),
     },
+    {
+      key: 'annualGala',
+      type: 'video',
+      poster: 'https://loremflickr.com/600/400/celebration,event?lock=303',
+      src: 'https://www.w3schools.com/html/mov_bbb.mp4',
+      title: t('annualGala'),
+      text: t('annualGalaText'),
+    },
   ];
 
   useEffect(() => {
