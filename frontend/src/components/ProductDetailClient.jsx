@@ -3,9 +3,13 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCart } from '../context/CartContext';
+import { useLanguage } from '../context/LanguageContext';
 import ProductReviews from './ProductReviews';
 
 export default function ProductDetailClient({ product }) {
+  const { lang, t } = useLanguage();
+  const displayName = lang === 'hi' && product.nameHi ? product.nameHi : product.name;
+  const displayDescription = lang === 'hi' && product.descriptionHi ? product.descriptionHi : product.description;
   const [quantity, setQuantity] = useState(1);
   const [variant, setVariant] = useState(null);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -69,7 +73,7 @@ export default function ProductDetailClient({ product }) {
       </div>
 
       <div className="product-detail-info">
-        <h1>{product.name}</h1>
+        <h1>{displayName}</h1>
         {product.ratingCount > 0 && (
           <div className="product-rating-row">
             <span className="review-stars">
@@ -78,7 +82,8 @@ export default function ProductDetailClient({ product }) {
               ))}
             </span>
             <span>
-              {product.ratingAverage.toFixed(1)} ({product.ratingCount} review{product.ratingCount === 1 ? '' : 's'})
+              {product.ratingAverage.toFixed(1)} ({product.ratingCount}{' '}
+              {product.ratingCount === 1 ? t('reviewWord') : t('reviewWordPlural')})
             </span>
           </div>
         )}
@@ -86,12 +91,12 @@ export default function ProductDetailClient({ product }) {
           <span className="price">₹{product.price}</span>
           {product.compareAtPrice > product.price && <span className="mrp">₹{product.compareAtPrice}</span>}
         </div>
-        {product.stock <= 0 && <span className="out-of-stock">Out of Stock</span>}
-        <p>{product.description}</p>
+        {product.stock <= 0 && <span className="out-of-stock">{t('outOfStock')}</span>}
+        <p>{displayDescription}</p>
 
         {product.variants?.length > 0 && (
           <select className="variant-select" onChange={(e) => setVariant(JSON.parse(e.target.value))}>
-            <option value="">Select Variant</option>
+            <option value="">{t('selectVariant')}</option>
             {product.variants.map((v, i) => (
               <option key={i} value={JSON.stringify(v)}>
                 {v.size} {v.color}
@@ -108,7 +113,7 @@ export default function ProductDetailClient({ product }) {
 
         <div className="product-detail-actions">
           <button className="btn-primary" disabled={product.stock <= 0} onClick={() => addItem(product, quantity, variant)}>
-            Add to Cart
+            {t('addToCart')}
           </button>
           <button
             className="btn-buy-now"
@@ -118,7 +123,7 @@ export default function ProductDetailClient({ product }) {
               router.push('/checkout');
             }}
           >
-            Buy Now
+            {t('buyNow')}
           </button>
         </div>
       </div>

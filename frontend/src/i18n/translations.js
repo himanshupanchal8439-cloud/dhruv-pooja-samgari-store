@@ -15,6 +15,23 @@ export const translations = {
     sacredCollections: 'Sacred Collections',
     // Product card
     viewDetails: 'View Details',
+    // Product detail
+    outOfStock: 'Out of Stock',
+    selectVariant: 'Select Variant',
+    addToCart: 'Add to Cart',
+    buyNow: 'Buy Now',
+    // Reviews
+    customerReviews: 'Customer Reviews',
+    yourRating: 'Your Rating',
+    starWord: 'Star',
+    starWordPlural: 'Stars',
+    reviewWord: 'review',
+    reviewWordPlural: 'reviews',
+    shareExperience: 'Share your experience with this product...',
+    submitReview: 'Submit Review',
+    submittingReview: 'Submitting...',
+    loginToReview: 'Login to write a review for this product.',
+    noReviewsYet: 'No reviews yet. Be the first to review this product.',
     // Astrology section
     cosmicGuidance: 'Cosmic Guidance',
     vedicServices: 'Vedic Astrology Services',
@@ -136,6 +153,23 @@ export const translations = {
     sacredCollections: 'पवित्र संग्रह',
     // Product card
     viewDetails: 'विवरण देखें',
+    // Product detail
+    outOfStock: 'स्टॉक में नहीं',
+    selectVariant: 'विकल्प चुनें',
+    addToCart: 'कार्ट में डालें',
+    buyNow: 'अभी खरीदें',
+    // Reviews
+    customerReviews: 'ग्राहक समीक्षाएं',
+    yourRating: 'आपकी रेटिंग',
+    starWord: 'स्टार',
+    starWordPlural: 'स्टार',
+    reviewWord: 'समीक्षा',
+    reviewWordPlural: 'समीक्षाएं',
+    shareExperience: 'इस उत्पाद के साथ अपना अनुभव साझा करें...',
+    submitReview: 'समीक्षा सबमिट करें',
+    submittingReview: 'सबमिट हो रहा है...',
+    loginToReview: 'इस उत्पाद की समीक्षा लिखने के लिए लॉगिन करें।',
+    noReviewsYet: 'अभी तक कोई समीक्षा नहीं। इस उत्पाद की समीक्षा करने वाले पहले व्यक्ति बनें।',
     // Astrology section
     cosmicGuidance: 'ब्रह्मांडीय मार्गदर्शन',
     vedicServices: 'वैदिक ज्योतिष सेवाएँ',

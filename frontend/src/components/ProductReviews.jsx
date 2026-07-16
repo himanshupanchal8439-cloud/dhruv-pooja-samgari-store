@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 import api from '../api/client';
 
 function Stars({ value }) {
@@ -16,6 +17,7 @@ function Stars({ value }) {
 
 export default function ProductReviews({ slug, ratingAverage, ratingCount }) {
   const { user } = useAuth();
+  const { t } = useLanguage();
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [rating, setRating] = useState(5);
@@ -52,43 +54,45 @@ export default function ProductReviews({ slug, ratingAverage, ratingCount }) {
 
   return (
     <section className="section product-reviews">
-      <h2>Customer Reviews</h2>
+      <h2>{t('customerReviews')}</h2>
 
       <div className="review-summary">
         <div className="review-summary-score">{ratingAverage?.toFixed(1) || '0.0'}</div>
         <div>
           <Stars value={ratingAverage || 0} />
-          <p>{ratingCount || 0} review{ratingCount === 1 ? '' : 's'}</p>
+          <p>
+            {ratingCount || 0} {ratingCount === 1 ? t('reviewWord') : t('reviewWordPlural')}
+          </p>
         </div>
       </div>
 
       {user && !alreadyReviewed && (
         <form className="review-form" onSubmit={handleSubmit}>
           <label>
-            Your Rating
+            {t('yourRating')}
             <select value={rating} onChange={(e) => setRating(Number(e.target.value))}>
               {[5, 4, 3, 2, 1].map((n) => (
                 <option key={n} value={n}>
-                  {n} Star{n === 1 ? '' : 's'}
+                  {n} {n === 1 ? t('starWord') : t('starWordPlural')}
                 </option>
               ))}
             </select>
           </label>
           <textarea
-            placeholder="Share your experience with this product..."
+            placeholder={t('shareExperience')}
             required
             value={comment}
             onChange={(e) => setComment(e.target.value)}
           />
           {error && <p className="error">{error}</p>}
           <button className="btn-primary" type="submit" disabled={submitting}>
-            {submitting ? 'Submitting...' : 'Submit Review'}
+            {submitting ? t('submittingReview') : t('submitReview')}
           </button>
         </form>
       )}
-      {!user && <p className="review-login-hint">Login to write a review for this product.</p>}
+      {!user && <p className="review-login-hint">{t('loginToReview')}</p>}
 
-      {!loading && reviews.length === 0 && <p>No reviews yet. Be the first to review this product.</p>}
+      {!loading && reviews.length === 0 && <p>{t('noReviewsYet')}</p>}
 
       <div className="review-list">
         {reviews.map((r) => (

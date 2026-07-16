@@ -277,6 +277,38 @@ button {
   padding: 0 0.6rem;
 }
 
+/* Hindi mode: Devanagari needs a font with those glyphs and taller line-height,
+   otherwise matras (upper/lower vowel marks) get clipped by tight heading styles. */
+html[lang='hi'] body {
+  font-family: var(--font-hindi), var(--font-body), sans-serif;
+}
+
+html[lang='hi'] h1,
+html[lang='hi'] h2,
+html[lang='hi'] h3,
+html[lang='hi'] h4,
+html[lang='hi'] h5,
+html[lang='hi'] .hero-title,
+html[lang='hi'] .sacred-heading h2,
+html[lang='hi'] .astro-title,
+html[lang='hi'] .astro-eyebrow,
+html[lang='hi'] .footer-brand,
+html[lang='hi'] .awards-eyebrow,
+html[lang='hi'] .astro-astrologer-name,
+html[lang='hi'] .panchang-card strong {
+  font-family: var(--font-hindi), serif;
+  line-height: 1.5;
+  letter-spacing: 0;
+  text-transform: none;
+  overflow: visible;
+  padding-top: 0.08em;
+  padding-bottom: 0.08em;
+}
+
+html[lang='hi'] .hero-title {
+  font-size: clamp(1.7rem, 4vw, 2.6rem);
+}
+
 .nav-lang-toggle:hover {
   background: rgba(212, 175, 55, 0.15);
 }
@@ -523,6 +555,14 @@ button {
   max-width: 720px;
   padding: 0 1.5rem;
   color: #fff;
+}
+
+.hero-content::before {
+  content: '';
+  position: absolute;
+  inset: -2rem -1rem;
+  background: radial-gradient(ellipse at center, rgba(10, 4, 2, 0.6) 0%, rgba(10, 4, 2, 0) 72%);
+  z-index: -1;
 }
 
 .hero-eyebrow {
