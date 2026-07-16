@@ -67,7 +67,7 @@ export default function Footer() {
                 <a href="#">{t('shippingPolicy')}</a>
               </li>
               <li>
-                <a href="#">{t('faq')}</a>
+                <Link href="/faq">{t('faq')}</Link>
               </li>
               <li>
                 <a href="#">{t('contactUs')}</a>
