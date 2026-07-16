@@ -4,8 +4,8 @@ const Coupon = require('../models/Coupon');
 const { verifySignature } = require('./paymentController');
 const sendEmail = require('../utils/sendEmail');
 
-function orderConfirmationHtml(order, user) {
-  const rows = order.items
+function orderItemRows(order) {
+  return order.items
     .map(
       (item) => `
         <tr>
@@ -15,7 +15,10 @@ function orderConfirmationHtml(order, user) {
         </tr>`
     )
     .join('');
+}
 
+function orderConfirmationHtml(order, user) {
+  const rows = orderItemRows(order);
   const addr = order.shippingAddress || {};
 
   return `
@@ -46,6 +49,35 @@ function orderConfirmationHtml(order, user) {
       </p>
       <p><strong>Payment method:</strong> ${order.paymentMethod === 'razorpay' ? 'Paid Online' : 'Cash on Delivery'}</p>
       <p style="margin-top:24px;color:#6b6258;">We'll notify you again once your order ships. Thank you for shopping with Vasishtha Pooja Samagri Store.</p>
+    </div>`;
+}
+
+function adminOrderNotificationHtml(order, user) {
+  const rows = orderItemRows(order);
+  const addr = order.shippingAddress || {};
+
+  return `
+    <div style="font-family:Georgia,serif;max-width:560px;margin:0 auto;color:#2a1a12;">
+      <h2 style="color:#8a5a1b;">New order received</h2>
+      <p><strong>Order ID:</strong> ${order._id}</p>
+      <p><strong>Customer:</strong> ${user.name} (${user.email})</p>
+      <table style="width:100%;border-collapse:collapse;margin:16px 0;">
+        <thead>
+          <tr>
+            <th style="text-align:left;border-bottom:2px solid #d4af37;padding-bottom:8px;">Item</th>
+            <th style="text-align:center;border-bottom:2px solid #d4af37;padding-bottom:8px;">Qty</th>
+            <th style="text-align:right;border-bottom:2px solid #d4af37;padding-bottom:8px;">Price</th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>
+      <p style="font-weight:bold;">Total: ₹${order.total}</p>
+      <p><strong>Shipping to:</strong><br/>
+        ${addr.line1 || ''} ${addr.line2 || ''}<br/>
+        ${addr.city || ''}, ${addr.state || ''} - ${addr.pincode || ''}<br/>
+        Phone: ${addr.phone || ''}
+      </p>
+      <p><strong>Payment method:</strong> ${order.paymentMethod === 'razorpay' ? 'Paid Online' : 'Cash on Delivery'}</p>
     </div>`;
 }
 
@@ -126,12 +158,23 @@ async function createOrder(req, res, next) {
       await Coupon.findByIdAndUpdate(coupon._id, { $inc: { usedCount: 1 } });
     }
 
+    const orderRef = order._id.toString().slice(-8).toUpperCase();
+
     if (req.user.email) {
       sendEmail({
         to: req.user.email,
-        subject: `Order Confirmed — #${order._id.toString().slice(-8).toUpperCase()}`,
+        subject: `Order Confirmed — #${orderRef}`,
         html: orderConfirmationHtml(order, req.user),
       }).catch((err) => console.error('Order confirmation email failed:', err.message));
+    }
+
+    const adminEmail = process.env.ADMIN_NOTIFY_EMAIL || process.env.EMAIL_USER;
+    if (adminEmail) {
+      sendEmail({
+        to: adminEmail,
+        subject: `New Order — #${orderRef}`,
+        html: adminOrderNotificationHtml(order, req.user),
+      }).catch((err) => console.error('Admin order notification email failed:', err.message));
     }
 
     res.status(201).json(order);
