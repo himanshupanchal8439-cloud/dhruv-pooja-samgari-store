@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useLanguage } from '../context/LanguageContext';
@@ -8,6 +8,16 @@ import { useLanguage } from '../context/LanguageContext';
 export default function AwardsSection() {
   const sectionRef = useRef();
   const { t } = useLanguage();
+  const [preview, setPreview] = useState(null);
+
+  useEffect(() => {
+    if (!preview) return;
+    function handleKey(e) {
+      if (e.key === 'Escape') setPreview(null);
+    }
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [preview]);
 
   const awards = [
     {
@@ -55,7 +65,14 @@ export default function AwardsSection() {
 
         <div className="awards-grid">
           {awards.map((a) => (
-            <div key={a.key} className="gallery-card">
+            <div
+              key={a.key}
+              className="gallery-card"
+              onClick={() => setPreview(a)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => e.key === 'Enter' && setPreview(a)}
+            >
               <div className="gallery-media">
                 {a.type === 'video' ? (
                   <video autoPlay loop muted playsInline poster={a.poster}>
@@ -71,6 +88,25 @@ export default function AwardsSection() {
           ))}
         </div>
       </div>
+
+      {preview && (
+        <div className="image-preview-overlay award-preview-overlay" onClick={() => setPreview(null)}>
+          <button className="image-preview-close" onClick={() => setPreview(null)} aria-label="Close preview">
+            ✕
+          </button>
+          <div className="award-preview-card" onClick={(e) => e.stopPropagation()}>
+            {preview.type === 'video' ? (
+              <video controls autoPlay loop poster={preview.poster}>
+                <source src={preview.src} type="video/mp4" />
+              </video>
+            ) : (
+              <img src={preview.image} alt={preview.title} />
+            )}
+            <h3>{preview.title}</h3>
+            <p>{preview.text}</p>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

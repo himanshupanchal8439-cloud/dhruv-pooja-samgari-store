@@ -1084,6 +1084,37 @@ html[lang='hi'] .hero-title {
   background: rgba(212, 175, 55, 0.3);
 }
 
+.award-preview-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  max-width: min(90vw, 600px);
+  cursor: default;
+  text-align: center;
+}
+
+.award-preview-card img,
+.award-preview-card video {
+  max-width: 100%;
+  max-height: 65vh;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.award-preview-card h3 {
+  font-family: var(--font-cinzel);
+  font-size: 1.4rem;
+  color: #fff;
+}
+
+.award-preview-card p {
+  color: #d8cfc2;
+  font-size: 0.95rem;
+  max-width: 500px;
+}
+
 .product-detail-info {
   display: flex;
   flex-direction: column;
@@ -2799,6 +2830,7 @@ html[lang='hi'] .hero-title {
   height: 420px;
   display: flex;
   flex-direction: column;
+  cursor: pointer;
   background: linear-gradient(145deg, rgba(212, 175, 55, 0.14), rgba(30, 10, 10, 0.7));
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
