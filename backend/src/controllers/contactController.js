@@ -1,4 +1,5 @@
 const sendEmail = require('../utils/sendEmail');
+const ContactMessage = require('../models/ContactMessage');
 
 async function submitContact(req, res, next) {
   try {
@@ -10,21 +11,23 @@ async function submitContact(req, res, next) {
       return res.status(400).json({ message: 'Input too long' });
     }
 
-    const to = process.env.ADMIN_NOTIFY_EMAIL || process.env.EMAIL_USER;
-    if (!to) return res.status(500).json({ message: 'Contact form is not configured' });
+    await ContactMessage.create({ name, email, message });
 
-    await sendEmail({
-      to,
-      subject: `New contact form message from ${name}`,
-      html: `
-        <div style="font-family:Georgia,serif;max-width:560px;margin:0 auto;color:#2a1a12;">
-          <h2 style="color:#8a5a1b;">New message from the Contact Us form</h2>
-          <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Message:</strong></p>
-          <p style="white-space:pre-wrap;">${message}</p>
-        </div>`,
-    });
+    const to = process.env.ADMIN_NOTIFY_EMAIL || process.env.EMAIL_USER;
+    if (to) {
+      sendEmail({
+        to,
+        subject: `New contact form message from ${name}`,
+        html: `
+          <div style="font-family:Georgia,serif;max-width:560px;margin:0 auto;color:#2a1a12;">
+            <h2 style="color:#8a5a1b;">New message from the Contact Us form</h2>
+            <p><strong>Name:</strong> ${name}</p>
+            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Message:</strong></p>
+            <p style="white-space:pre-wrap;">${message}</p>
+          </div>`,
+      }).catch((err) => console.error('Contact notification email failed:', err.message));
+    }
 
     res.json({ message: 'Message sent' });
   } catch (err) {
@@ -32,4 +35,13 @@ async function submitContact(req, res, next) {
   }
 }
 
-module.exports = { submitContact };
+async function listContactMessages(req, res, next) {
+  try {
+    const messages = await ContactMessage.find().sort('-createdAt');
+    res.json(messages);
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports = { submitContact, listContactMessages };

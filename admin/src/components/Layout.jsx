@@ -9,6 +9,7 @@ const links = [
   { to: '/orders', label: 'Orders', roles: ['admin', 'staff'] },
   { to: '/customers', label: 'Customers', roles: ['admin', 'staff'] },
   { to: '/subscribers', label: 'Subscribers', roles: ['admin', 'staff'] },
+  { to: '/contact-messages', label: 'Contact Messages', roles: ['admin', 'staff'] },
   { to: '/blog', label: 'Blog', roles: ['admin', 'staff'] },
   { to: '/coupons', label: 'Coupons', roles: ['admin'] },
   { to: '/activity-logs', label: 'Activity Logs', roles: ['admin'] },

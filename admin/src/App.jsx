@@ -13,6 +13,7 @@ import Coupons from './pages/Coupons';
 import ActivityLogs from './pages/ActivityLogs';
 import Blog from './pages/Blog';
 import Subscribers from './pages/Subscribers';
+import ContactMessages from './pages/ContactMessages';
 import './App.css';
 
 export default function App() {
@@ -42,6 +43,7 @@ export default function App() {
             <Route path="/orders/:id" element={<OrderDetail />} />
             <Route path="/customers" element={<Customers />} />
             <Route path="/subscribers" element={<Subscribers />} />
+            <Route path="/contact-messages" element={<ContactMessages />} />
             <Route path="/blog" element={<Blog />} />
             <Route
               path="/coupons"
