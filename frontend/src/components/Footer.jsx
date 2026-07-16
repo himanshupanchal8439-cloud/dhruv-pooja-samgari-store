@@ -67,7 +67,7 @@ export default function Footer() {
                 <Link href="/faq">{t('faq')}</Link>
               </li>
               <li>
-                <a href="#">{t('contactUs')}</a>
+                <Link href="/contact-us">{t('contactUs')}</Link>
               </li>
             </ul>
           </div>
