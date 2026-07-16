@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useLanguage } from '../context/LanguageContext';
 
 // Default location: New Delhi. Timings are in IST (Indian audience).
 const DEFAULT_LOCATION = { lat: 28.6139, lon: 77.209, label: 'New Delhi' };
@@ -10,6 +11,10 @@ const tithiNames = [
   'Pratipada', 'Dwitiya', 'Tritiya', 'Chaturthi', 'Panchami', 'Shashthi', 'Saptami', 'Ashtami',
   'Navami', 'Dashami', 'Ekadashi', 'Dwadashi', 'Trayodashi', 'Chaturdashi',
 ];
+const tithiNamesHi = [
+  'प्रतिपदा', 'द्वितीया', 'तृतीया', 'चतुर्थी', 'पंचमी', 'षष्ठी', 'सप्तमी', 'अष्टमी',
+  'नवमी', 'दशमी', 'एकादशी', 'द्वादशी', 'त्रयोदशी', 'चतुर्दशी',
+];
 
 const nakshatraNames = [
   'Ashwini', 'Bharani', 'Krittika', 'Rohini', 'Mrigashira', 'Ardra', 'Punarvasu', 'Pushya', 'Ashlesha',
@@ -17,8 +22,17 @@ const nakshatraNames = [
   'Mula', 'Purva Ashadha', 'Uttara Ashadha', 'Shravana', 'Dhanishta', 'Shatabhisha', 'Purva Bhadrapada',
   'Uttara Bhadrapada', 'Revati',
 ];
+const nakshatraNamesHi = [
+  'अश्विनी', 'भरणी', 'कृत्तिका', 'रोहिणी', 'मृगशिरा', 'आर्द्रा', 'पुनर्वसु', 'पुष्य', 'अश्लेषा',
+  'मघा', 'पूर्वा फाल्गुनी', 'उत्तरा फाल्गुनी', 'हस्त', 'चित्रा', 'स्वाति', 'विशाखा', 'अनुराधा', 'ज्येष्ठा',
+  'मूल', 'पूर्वाषाढ़ा', 'उत्तराषाढ़ा', 'श्रवण', 'धनिष्ठा', 'शतभिषा', 'पूर्वा भाद्रपदा',
+  'उत्तरा भाद्रपदा', 'रेवती',
+];
 
 const vaarNames = ['Ravivaar', 'Somvaar', 'Mangalvaar', 'Budhvaar', 'Guruvaar', 'Shukravaar', 'Shanivaar'];
+const vaarNamesHi = ['रविवार', 'सोमवार', 'मंगलवार', 'बुधवार', 'गुरुवार', 'शुक्रवार', 'शनिवार'];
+const pakshaHi = { 'Shukla Paksha': 'शुक्ल पक्ष', 'Krishna Paksha': 'कृष्ण पक्ष' };
+const specialTithiHi = { Purnima: 'पूर्णिमा', Amavasya: 'अमावस्या' };
 
 // 1-indexed segment (of 8 day-parts) per weekday, Sunday first
 const rahuSegment = [8, 2, 7, 5, 6, 4, 3];
@@ -112,7 +126,7 @@ function segmentRange(sunrise, sunset, index1) {
   return `${fmt(start)} – ${fmt(start + part)}`;
 }
 
-function computePanchang(lat, lon) {
+function computePanchang(lat, lon, lang, notObservedText) {
   const now = new Date();
   const jd = julianDay(now);
 
@@ -128,7 +142,8 @@ function computePanchang(lat, lon) {
   else tithi = tithiNames[tithiIndex % 15];
 
   const siderealMoon = norm360(moon - ayanamsa(now));
-  const nakshatra = nakshatraNames[Math.floor(siderealMoon / (360 / 27))];
+  const nakshatraIndex = Math.floor(siderealMoon / (360 / 27));
+  const nakshatra = nakshatraNames[nakshatraIndex];
 
   const { sunrise, sunset } = sunTimes(now, lat, lon);
   const dayLen = sunset - sunrise;
@@ -136,14 +151,23 @@ function computePanchang(lat, lon) {
   const muhurta = dayLen / 15;
   const weekday = now.getDay();
 
+  const isHi = lang === 'hi';
+  const displayTithi = isHi ? specialTithiHi[tithi] || tithiNamesHi[tithiIndex % 15] : tithi;
+  const displayPaksha = isHi ? pakshaHi[paksha] : paksha;
+
   return {
-    dateLabel: now.toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }),
-    vaar: vaarNames[weekday],
-    tithi: `${tithi} (${paksha})`,
-    nakshatra,
+    dateLabel: now.toLocaleDateString(isHi ? 'hi-IN' : 'en-IN', {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    }),
+    vaar: (isHi ? vaarNamesHi : vaarNames)[weekday],
+    tithi: `${displayTithi} (${displayPaksha})`,
+    nakshatra: isHi ? nakshatraNamesHi[nakshatraIndex] : nakshatra,
     sunrise: fmt(sunrise),
     sunset: fmt(sunset),
-    abhijit: weekday === 3 ? 'Not observed on Budhvaar' : `${fmt(midday - muhurta / 2)} – ${fmt(midday + muhurta / 2)}`,
+    abhijit: weekday === 3 ? notObservedText : `${fmt(midday - muhurta / 2)} – ${fmt(midday + muhurta / 2)}`,
     rahuKaal: segmentRange(sunrise, sunset, rahuSegment[weekday]),
     yamaganda: segmentRange(sunrise, sunset, yamaSegment[weekday]),
     gulika: segmentRange(sunrise, sunset, gulikaSegment[weekday]),
@@ -162,6 +186,7 @@ async function reverseGeocode(lat, lon) {
 }
 
 export default function PanchangSection() {
+  const { t, lang } = useLanguage();
   const [location, setLocation] = useState(DEFAULT_LOCATION);
   const [p, setP] = useState(null);
   const [locStatus, setLocStatus] = useState('default'); // default | detecting | detected | denied
@@ -197,10 +222,12 @@ export default function PanchangSection() {
   }, []);
 
   useEffect(() => {
-    setP(computePanchang(location.lat, location.lon));
-    const timer = setInterval(() => setP(computePanchang(location.lat, location.lon)), 10 * 60 * 1000);
+    const notObserved = t('notObservedBudhvaar');
+    setP(computePanchang(location.lat, location.lon, lang, notObserved));
+    const timer = setInterval(() => setP(computePanchang(location.lat, location.lon, lang, notObserved)), 10 * 60 * 1000);
     return () => clearInterval(timer);
-  }, [location]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location, lang]);
 
   if (!p) return null;
 
@@ -208,20 +235,21 @@ export default function PanchangSection() {
     <section className="panchang-section">
       <div className="section">
         <div className="sacred-heading">
-          <h4 className="awards-eyebrow">Aaj Ka Panchang</h4>
-          <h2>Daily Panchang &amp; Shubh Muhurat</h2>
+          <h4 className="awards-eyebrow">{t('panchangEyebrow')}</h4>
+          <h2>{t('panchangHeading')}</h2>
           <div className="sacred-divider" />
           <p className="panchang-date">
-            {p.dateLabel} · {p.vaar} · <i className="fa-solid fa-location-dot" /> {location.label}
+            {p.dateLabel} · {p.vaar} · <i className="fa-solid fa-location-dot" />{' '}
+            {locStatus === 'detected' ? location.label : t('newDelhi')}
           </p>
           {locStatus !== 'detected' && (
             <button className="panchang-location-btn" onClick={requestLocation} disabled={locStatus === 'detecting'}>
               <i className="fa-solid fa-crosshairs" />{' '}
               {locStatus === 'detecting'
-                ? 'Detecting your location...'
+                ? t('detectingLocation')
                 : locStatus === 'denied'
-                  ? 'Location blocked — showing New Delhi timings'
-                  : 'Use my location for exact timings'}
+                  ? t('locationBlocked')
+                  : t('useMyLocation')}
             </button>
           )}
         </div>
@@ -229,49 +257,49 @@ export default function PanchangSection() {
         <div className="panchang-grid">
           <div className="panchang-card">
             <i className="fa-solid fa-moon" />
-            <span>Tithi</span>
+            <span>{t('tithiLabel')}</span>
             <strong>{p.tithi}</strong>
           </div>
           <div className="panchang-card">
             <i className="fa-solid fa-star" />
-            <span>Nakshatra</span>
+            <span>{t('nakshatraLabel')}</span>
             <strong>{p.nakshatra}</strong>
           </div>
           <div className="panchang-card">
             <i className="fa-solid fa-sun" />
-            <span>Suryoday</span>
+            <span>{t('suryodayLabel')}</span>
             <strong>{p.sunrise}</strong>
           </div>
           <div className="panchang-card">
             <i className="fa-solid fa-cloud-sun" />
-            <span>Suryast</span>
+            <span>{t('suryastLabel')}</span>
             <strong>{p.sunset}</strong>
           </div>
           <div className="panchang-card panchang-card-good">
             <i className="fa-solid fa-hands-praying" />
-            <span>Abhijit Muhurat</span>
+            <span>{t('abhijitLabel')}</span>
             <strong>{p.abhijit}</strong>
           </div>
           <div className="panchang-card panchang-card-bad">
             <i className="fa-solid fa-triangle-exclamation" />
-            <span>Rahu Kaal</span>
+            <span>{t('rahuKaalLabel')}</span>
             <strong>{p.rahuKaal}</strong>
           </div>
           <div className="panchang-card panchang-card-bad">
             <i className="fa-solid fa-circle-minus" />
-            <span>Yamaganda</span>
+            <span>{t('yamagandaLabel')}</span>
             <strong>{p.yamaganda}</strong>
           </div>
           <div className="panchang-card panchang-card-bad">
             <i className="fa-solid fa-hourglass-half" />
-            <span>Gulika Kaal</span>
+            <span>{t('gulikaKaalLabel')}</span>
             <strong>{p.gulika}</strong>
           </div>
         </div>
 
         <p className="panchang-note">
-          Timings are shown in IST for {location.label}. For precise muhurat for your occasion, consult our verified
-          astrologers.
+          {t('panchangNotePrefix')} {locStatus === 'detected' ? location.label : t('newDelhi')}.{' '}
+          {t('panchangNoteSuffix')}
         </p>
       </div>
     </section>
