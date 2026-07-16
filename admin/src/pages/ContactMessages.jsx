@@ -4,9 +4,17 @@ import api from '../api/client';
 export default function ContactMessages() {
   const [messages, setMessages] = useState([]);
 
-  useEffect(() => {
+  function load() {
     api.get('/contact').then((res) => setMessages(res.data));
-  }, []);
+  }
+
+  useEffect(load, []);
+
+  async function handleDelete(id) {
+    if (!confirm('Delete this message?')) return;
+    await api.delete(`/contact/${id}`);
+    load();
+  }
 
   return (
     <div>
@@ -18,6 +26,7 @@ export default function ContactMessages() {
             <th>Email</th>
             <th>Message</th>
             <th>Received</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -27,6 +36,11 @@ export default function ContactMessages() {
               <td>{m.email}</td>
               <td style={{ whiteSpace: 'pre-wrap' }}>{m.message}</td>
               <td>{new Date(m.createdAt).toLocaleString()}</td>
+              <td>
+                <button className="link-btn" onClick={() => handleDelete(m._id)}>
+                  Delete
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>

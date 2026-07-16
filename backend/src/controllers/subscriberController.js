@@ -26,4 +26,13 @@ async function listSubscribers(req, res, next) {
   }
 }
 
-module.exports = { subscribe, listSubscribers };
+async function deleteSubscriber(req, res, next) {
+  try {
+    await Subscriber.findByIdAndDelete(req.params.id);
+    res.json({ message: 'Subscriber deleted' });
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports = { subscribe, listSubscribers, deleteSubscriber };

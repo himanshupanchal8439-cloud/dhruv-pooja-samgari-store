@@ -44,4 +44,13 @@ async function listContactMessages(req, res, next) {
   }
 }
 
-module.exports = { submitContact, listContactMessages };
+async function deleteContactMessage(req, res, next) {
+  try {
+    await ContactMessage.findByIdAndDelete(req.params.id);
+    res.json({ message: 'Message deleted' });
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports = { submitContact, listContactMessages, deleteContactMessage };
