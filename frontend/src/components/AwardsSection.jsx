@@ -13,7 +13,7 @@ export default function AwardsSection() {
     {
       key: 'brandOfYear',
       type: 'image',
-      image: 'https://loremflickr.com/600/400/trophy,award?lock=302',
+      image: '/images/star-icon-award-2022.png',
       title: t('brandOfYear'),
       text: t('brandOfYearText'),
     },
