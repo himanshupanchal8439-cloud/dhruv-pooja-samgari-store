@@ -71,10 +71,6 @@ export default function ContactForm() {
           {status === 'success' && <p className="contact-form-msg contact-form-success">{t('contactSuccess')}</p>}
           {status === 'error' && <p className="contact-form-msg contact-form-error">{t('contactError')}</p>}
         </form>
-
-        <p className="contact-email-line">
-          {t('contactEmailUs')} <a href="mailto:sharmadhruv8392@gmail.com">sharmadhruv8392@gmail.com</a>
-        </p>
       </div>
     </>
   );
