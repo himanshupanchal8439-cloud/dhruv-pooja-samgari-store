@@ -31,6 +31,7 @@ export function CartProvider({ children }) {
           key,
           product: product._id,
           name: product.name,
+          nameHi: product.nameHi,
           image: product.images?.[0],
           price: product.price,
           quantity,

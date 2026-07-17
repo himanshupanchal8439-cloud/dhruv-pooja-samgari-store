@@ -6,7 +6,7 @@ import { useLanguage } from '../../context/LanguageContext';
 
 export default function Cart() {
   const { items, updateQuantity, removeItem, subtotal } = useCart();
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
 
   if (items.length === 0) {
     return (
@@ -27,7 +27,7 @@ export default function Cart() {
           <div key={item.key} className="cart-item">
             <img src={item.image || 'https://loremflickr.com/500/500/puja'} alt={item.name} />
             <div className="cart-item-info">
-              <h3>{item.name}</h3>
+              <h3>{lang === 'hi' && item.nameHi ? item.nameHi : item.name}</h3>
               {item.variant && (
                 <p>
                   {item.variant.size} {item.variant.color}
