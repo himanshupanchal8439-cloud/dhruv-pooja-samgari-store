@@ -91,12 +91,12 @@ export default function FestivalsSection() {
         </div>
 
         <div className="festivals-grid">
-          <a href="#panchang" className="festival-card">
+          <Link href="/panchang" className="festival-card">
             <i className="fa-solid fa-moon festival-card-icon" />
             <h3>{t('panchangCardTitle')}</h3>
             <p className="festival-card-value">{data.tithi}</p>
             <span className="festival-card-link">{t('viewFullPanchang')} →</span>
-          </a>
+          </Link>
 
           <div className="festival-card">
             <i className="fa-solid fa-calendar-days festival-card-icon" />
