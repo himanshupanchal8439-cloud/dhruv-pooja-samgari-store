@@ -41,6 +41,18 @@ export const rashiNamesHi = [
   'तुला', 'वृश्चिक', 'धनु', 'मकर', 'कुंभ', 'मीन',
 ];
 
+// Approximate Amanta lunar month, indexed by the Sun's current sidereal rashi
+// (same order as rashiNames — Mesh=0 .. Meen=11). A common simplification
+// used by lightweight Panchang tools; not a precise luni-solar derivation.
+export const masaNames = [
+  'Vaishakha', 'Jyeshtha', 'Ashadha', 'Shravana', 'Bhadrapada', 'Ashwin',
+  'Kartik', 'Margashirsha', 'Paush', 'Magha', 'Phalguna', 'Chaitra',
+];
+export const masaNamesHi = [
+  'वैशाख', 'ज्येष्ठ', 'आषाढ़', 'श्रावण', 'भाद्रपद', 'आश्विन',
+  'कार्तिक', 'मार्गशीर्ष', 'पौष', 'माघ', 'फाल्गुन', 'चैत्र',
+];
+
 // 1-indexed segment (of 8 day-parts) per weekday, Sunday first
 export const rahuSegment = [8, 2, 7, 5, 6, 4, 3];
 export const yamaSegment = [5, 4, 3, 2, 1, 7, 6];

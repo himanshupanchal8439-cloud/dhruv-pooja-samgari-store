@@ -150,6 +150,9 @@ export const translations = {
     sunRashi: 'Sun Rashi',
     moonRashi: 'Moon Rashi',
     jyotishCardTitle: 'Jyotish',
+    masaWord: 'Masa',
+    viewAllFestivals: 'View All Festivals',
+    showLess: 'Show Less',
     // Footer
     footerDesc:
       'Bringing ancient traditions to your doorstep. Ethically sourced, spiritually curated, and delivered with devotion.',
@@ -452,6 +455,9 @@ export const translations = {
     sunRashi: 'सूर्य राशि',
     moonRashi: 'चंद्र राशि',
     jyotishCardTitle: 'ज्योतिष',
+    masaWord: 'मास',
+    viewAllFestivals: 'सभी त्योहार देखें',
+    showLess: 'कम दिखाएं',
     // Footer
     footerDesc: 'प्राचीन परंपराएँ आपके द्वार तक। शुद्धता से चुनी गई, श्रद्धा के साथ वितरित।',
     templeIdols: 'मंदिर मूर्तियाँ',

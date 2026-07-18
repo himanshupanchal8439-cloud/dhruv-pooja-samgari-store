@@ -5,8 +5,8 @@ import { useEffect, useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { festivals2026 } from '../utils/festivals2026';
 import {
-  getVedicSnapshot, rashiNames, rashiNamesHi,
-  tithiNames, tithiNamesHi, specialTithiHi,
+  getVedicSnapshot, rashiNames, rashiNamesHi, masaNames, masaNamesHi,
+  tithiNames, tithiNamesHi, pakshaHi, specialTithiHi,
   sunTimes, fmt,
 } from '../utils/panchangCalc';
 
@@ -44,12 +44,13 @@ function computeFestivalsData(lang) {
   const muhurta = dayLen / 15;
   const abhijit = snap.weekday === 3 ? null : `${fmt(midday - muhurta / 2)} – ${fmt(midday + muhurta / 2)}`;
 
-  const displayTithi = isHi
+  const tithiName = isHi
     ? specialTithiHi[snap.tithi] || tithiNamesHi[snap.tithiIndex % 15]
     : snap.tithi;
+  const pakshaName = isHi ? pakshaHi[snap.paksha] : snap.paksha;
 
   const todayStr = now.toISOString().slice(0, 10);
-  const upcoming = festivals2026.filter((f) => f.date >= todayStr).slice(0, 5);
+  const upcoming = festivals2026.filter((f) => f.date >= todayStr);
   const next = upcoming[0] || null;
   const daysUntilNext = next
     ? Math.round((new Date(next.date) - new Date(todayStr)) / 86400000)
@@ -57,7 +58,9 @@ function computeFestivalsData(lang) {
 
   return {
     vikramSamvat: vikramSamvatYear(now),
-    tithi: displayTithi,
+    masa: isHi ? masaNamesHi[snap.sunRashiIndex] : masaNames[snap.sunRashiIndex],
+    tithiName,
+    pakshaName,
     sunRashi: isHi ? rashiNamesHi[snap.sunRashiIndex] : rashiNames[snap.sunRashiIndex],
     moonRashi: isHi ? rashiNamesHi[snap.moonRashiIndex] : rashiNames[snap.moonRashiIndex],
     abhijit,
@@ -71,6 +74,7 @@ function computeFestivalsData(lang) {
 export default function FestivalsSection() {
   const { t, lang } = useLanguage();
   const [data, setData] = useState(null);
+  const [showAllFestivals, setShowAllFestivals] = useState(false);
 
   useEffect(() => {
     setData(computeFestivalsData(lang));
@@ -80,105 +84,204 @@ export default function FestivalsSection() {
 
   if (!data) return null;
   const isHi = lang === 'hi';
+  const restFestivals = data.upcoming.slice(1);
+  const visibleFestivals = showAllFestivals ? restFestivals : restFestivals.slice(0, 3);
 
   return (
     <section className="festivals-section">
       <div className="section">
-        <div className="sacred-heading">
-          <h4 className="awards-eyebrow">{t('festivalsEyebrow')}</h4>
-          <h2>{t('festivalsHeading')}</h2>
-          <div className="sacred-divider" />
+        <div className="festivals-header">
+          <p className="festivals-eyebrow">
+            <i className="fa-solid fa-om" /> {t('festivalsEyebrow')} <i className="fa-solid fa-om" />
+          </p>
+          <h2 className="festivals-heading">{t('festivalsHeading')}</h2>
+          <div className="festivals-divider">
+            <span className="festivals-divider-line" />
+            <span className="festivals-divider-dot small" />
+            <span className="festivals-divider-dot" />
+            <span className="festivals-divider-dot small" />
+            <span className="festivals-divider-line" />
+          </div>
         </div>
 
         <div className="festivals-grid">
+          {/* Panchang */}
           <Link href="/panchang" className="festival-card">
+            <i className="fa-solid fa-moon festival-card-bg-icon" />
             <div className="festival-card-icon-badge">
-              <i className="fa-solid fa-moon festival-card-icon" />
+              <i className="fa-solid fa-moon" />
             </div>
-            <h3>{t('panchangCardTitle')}</h3>
-            <p className="festival-card-value">{data.tithi}</p>
-            <span className="festival-card-link">{t('viewFullPanchang')} →</span>
+            <h3 className="festival-card-label">{t('panchangCardTitle')}</h3>
+            <p className="festival-card-title-value">{data.tithiName}</p>
+            <p className="festival-card-subvalue">{data.pakshaName}</p>
+            <span className="festival-card-link">
+              {t('viewFullPanchang')} <i className="fa-solid fa-arrow-right" />
+            </span>
           </Link>
 
+          {/* Hindu Calendar */}
           <div className="festival-card">
+            <i className="fa-solid fa-calendar-days festival-card-bg-icon" />
             <div className="festival-card-icon-badge">
-              <i className="fa-solid fa-calendar-days festival-card-icon" />
+              <i className="fa-solid fa-calendar-days" />
             </div>
-            <h3>{t('calendarCardTitle')}</h3>
-            <p className="festival-card-value">
+            <h3 className="festival-card-label">{t('calendarCardTitle')}</h3>
+            <p className="festival-card-title-value">
               {t('vikramSamvat')} {data.vikramSamvat}
+            </p>
+            <p className="festival-card-subvalue">
+              {data.masa} {t('masaWord')}
             </p>
           </div>
 
+          {/* Muhurat */}
           <div className="festival-card">
+            <i className="fa-solid fa-sun festival-card-bg-icon" />
             <div className="festival-card-icon-badge">
-              <i className="fa-solid fa-hands-praying festival-card-icon" />
+              <i className="fa-solid fa-hands-praying" />
             </div>
-            <h3>{t('muhuratCardTitle')}</h3>
-            <span className="festival-card-hint">{t('abhijitLabel')}</span>
-            <p className="festival-card-value">{data.abhijit || t('notObservedBudhvaar')}</p>
+            <h3 className="festival-card-label">{t('muhuratCardTitle')}</h3>
+            <span className="festival-muhurat-badge">{t('abhijitLabel')}</span>
+            <p className="festival-muhurat-time">{data.abhijit || t('notObservedBudhvaar')}</p>
           </div>
 
+          {/* Vrat & Upavas */}
           <div className="festival-card">
+            <i className="fa-solid fa-leaf festival-card-bg-icon" />
             <div className="festival-card-icon-badge">
-              <i className="fa-solid fa-om festival-card-icon" />
+              <i className="fa-solid fa-spa" />
             </div>
-            <h3>{t('vratCardTitle')}</h3>
-            <p className="festival-card-value">
+            <h3 className="festival-card-label">{t('vratCardTitle')}</h3>
+            <p className="festival-vrat-text">
               {data.vrat ? t(data.vrat.key) : t('noMajorVratToday')}
             </p>
           </div>
 
-          <div className="festival-card festival-card-wide">
-            <div className="festival-card-icon-badge">
-              <i className="fa-solid fa-gift festival-card-icon" />
+          {/* Festivals (wide) */}
+          <div className="festival-card festival-card-wide festival-card-plain">
+            <div className="festival-section-header">
+              <div className="festival-header-icon festival-header-icon-red">
+                <i className="fa-solid fa-gift" />
+              </div>
+              <h3 className="festival-section-title">{t('festivalsCardTitle')}</h3>
             </div>
-            <h3>{t('festivalsCardTitle')}</h3>
+
             {data.next ? (
               <>
-                <p className="festival-card-value">
-                  {isHi ? data.next.nameHi : data.next.name} —{' '}
-                  {data.daysUntilNext === 0 ? t('today') : `${t('inDays')} ${data.daysUntilNext} ${t('daysWord')}`}
-                </p>
-                <ul className="festival-upcoming-list">
-                  {data.upcoming.map((f) => (
-                    <li key={f.date}>
-                      <span>{isHi ? f.nameHi : f.name}</span>
-                      <span>{new Date(f.date).toLocaleDateString(isHi ? 'hi-IN' : 'en-IN', { day: 'numeric', month: 'short' })}</span>
-                    </li>
-                  ))}
-                </ul>
+                <div className="festival-featured-box">
+                  <div className="festival-featured-glow" />
+                  <div className="festival-featured-row">
+                    <div>
+                      <h4 className="festival-featured-name">{isHi ? data.next.nameHi : data.next.name}</h4>
+                      <p className="festival-featured-countdown">
+                        <span className="festival-pulse-dot">
+                          <span className="festival-pulse-ping" />
+                          <span className="festival-pulse-core" />
+                        </span>
+                        {data.daysUntilNext === 0 ? t('today') : `${t('inDays')} ${data.daysUntilNext} ${t('daysWord')}`}
+                      </p>
+                    </div>
+                    <div className="festival-featured-date-badge">
+                      <span className="festival-featured-day">{new Date(data.next.date).getDate()}</span>
+                      <span className="festival-featured-month">
+                        {new Date(data.next.date).toLocaleDateString(isHi ? 'hi-IN' : 'en-IN', { month: 'short' })}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {visibleFestivals.length > 0 && (
+                  <div className="festival-list">
+                    {visibleFestivals.map((f, i) => (
+                      <div key={f.date}>
+                        <div className="festival-list-item">
+                          <div className="festival-list-item-left">
+                            <span className="festival-list-dot" />
+                            <span className="festival-list-name">{isHi ? f.nameHi : f.name}</span>
+                          </div>
+                          <span className="festival-list-date">
+                            {new Date(f.date).toLocaleDateString(isHi ? 'hi-IN' : 'en-IN', { day: '2-digit', month: 'short' }).toUpperCase()}
+                          </span>
+                        </div>
+                        {i < visibleFestivals.length - 1 && <div className="festival-list-divider" />}
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {restFestivals.length > 3 && (
+                  <button className="festival-view-all-btn" onClick={() => setShowAllFestivals((v) => !v)}>
+                    <i className="fa-solid fa-calendar-days" />
+                    {showAllFestivals ? t('showLess') : t('viewAllFestivals')}
+                  </button>
+                )}
               </>
             ) : (
-              <p className="festival-card-value">{t('noUpcomingFestivals')}</p>
+              <p className="festival-vrat-text">{t('noUpcomingFestivals')}</p>
             )}
           </div>
 
-          <div className="festival-card">
-            <div className="festival-card-icon-badge">
-              <i className="fa-solid fa-globe festival-card-icon" />
+          {/* Planets */}
+          <div className="festival-card festival-card-plain">
+            <div className="festival-section-header">
+              <div className="festival-header-icon festival-header-icon-amber">
+                <i className="fa-solid fa-globe" />
+              </div>
+              <h3 className="festival-section-title">{t('planetsCardTitle')}</h3>
             </div>
-            <h3>{t('planetsCardTitle')}</h3>
-            <div className="festival-planet-row">
-              <span className="festival-card-hint">{t('sunRashi')}</span>
-              <span className="festival-card-value">{data.sunRashi}</span>
+
+            <div className="festival-planet-mini-card festival-planet-sun">
+              <div className="festival-planet-mini-left">
+                <div className="festival-planet-mini-icon festival-planet-mini-icon-sun">
+                  <i className="fa-solid fa-sun" />
+                </div>
+                <span className="festival-planet-mini-label">{t('sunRashi')}</span>
+              </div>
+              <span className="festival-planet-mini-value">{data.sunRashi}</span>
             </div>
-            <div className="festival-planet-row">
-              <span className="festival-card-hint">{t('moonRashi')}</span>
-              <span className="festival-card-value">{data.moonRashi}</span>
+
+            <div className="festival-planet-mini-card festival-planet-moon">
+              <div className="festival-planet-mini-left">
+                <div className="festival-planet-mini-icon festival-planet-mini-icon-moon">
+                  <i className="fa-solid fa-moon" />
+                </div>
+                <span className="festival-planet-mini-label">{t('moonRashi')}</span>
+              </div>
+              <span className="festival-planet-mini-value">{data.moonRashi}</span>
             </div>
           </div>
 
-          <div className="festival-card festival-card-wide">
-            <div className="festival-card-icon-badge">
-              <i className="fa-solid fa-star-and-crescent festival-card-icon" />
+          {/* Jyotish */}
+          <div className="festival-card festival-card-plain">
+            <div className="festival-section-header">
+              <div className="festival-header-icon festival-header-icon-purple">
+                <i className="fa-solid fa-star-and-crescent" />
+              </div>
+              <h3 className="festival-section-title">{t('jyotishCardTitle')}</h3>
             </div>
-            <h3>{t('jyotishCardTitle')}</h3>
-            <div className="festival-jyotish-links">
-              <Link href="/kundli">{t('janamKundli')}</Link>
-              <Link href="/kundli-matching">{t('kundliMatching')}</Link>
-              <Link href="/daily-horoscope">{t('dailyHoroscope')}</Link>
-              <a href="#talk-to-astrologer">{t('talkToAstrologer')}</a>
+
+            <div className="festival-service-list">
+              <Link href="/kundli" className="festival-service-item">
+                <span>
+                  <i className="fa-solid fa-scroll" /> {t('janamKundli')}
+                </span>
+                <i className="fa-solid fa-chevron-right" />
+              </Link>
+              <Link href="/kundli-matching" className="festival-service-item">
+                <span>
+                  <i className="fa-solid fa-people-arrows" /> {t('kundliMatching')}
+                </span>
+                <i className="fa-solid fa-chevron-right" />
+              </Link>
+              <Link href="/daily-horoscope" className="festival-service-item">
+                <span>
+                  <i className="fa-solid fa-star" /> {t('dailyHoroscope')}
+                </span>
+                <i className="fa-solid fa-chevron-right" />
+              </Link>
+              <a href="#talk-to-astrologer" className="festival-cta-button">
+                <i className="fa-solid fa-headset" /> {t('talkToAstrologer')}
+              </a>
             </div>
           </div>
         </div>
