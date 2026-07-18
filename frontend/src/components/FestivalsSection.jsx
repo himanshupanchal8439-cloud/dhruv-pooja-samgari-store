@@ -89,6 +89,7 @@ export default function FestivalsSection() {
 
   return (
     <section className="festivals-section">
+      <div className="festivals-glow" />
       <div className="section">
         <div className="festivals-header">
           <p className="festivals-eyebrow">

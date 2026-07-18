@@ -2754,23 +2754,40 @@ html[lang='hi'] .hero-title {
   color: var(--color-muted);
 }
 
-/* Festivals & Jyotish home section — saffron pooja theme, scoped locally */
+/* Festivals & Jyotish home section — matches the site's crimson/gold theme,
+   same radial background treatment as the hero, astrology and awards sections */
 .festivals-section {
-  --fs-saffron: #ea580c;
-  --fs-saffron-light: #ffedd5;
-  --fs-maroon: #991b1b;
-  --fs-bg-cream: #fcf9f4;
-  --fs-text-dark: #2d1a11;
-  --fs-text-muted: #8c7c70;
-  --fs-card-border: #f3e8d6;
+  --fs-gold: var(--gold-main);
+  --fs-gold-tint: rgba(212, 175, 55, 0.12);
+  --fs-text-light: #f7ece0;
+  --fs-text-muted: rgba(247, 236, 224, 0.6);
+  --fs-card-border: rgba(212, 175, 55, 0.18);
 
-  background-color: var(--fs-bg-cream);
-  background-image: radial-gradient(#e8dcc4 1px, transparent 1px);
-  background-size: 32px 32px;
-  padding-block: 4rem;
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 30%, var(--bg-crimson) 0%, var(--bg-deep) 80%);
+  color: var(--fs-text-light);
+  padding-block: 4.5rem;
+}
+
+.festivals-glow {
+  position: absolute;
+  top: 6%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50vw;
+  height: 50vw;
+  max-width: 560px;
+  max-height: 560px;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.22) 0%, rgba(212, 175, 55, 0) 70%);
+  border-radius: 50%;
+  filter: blur(10px);
+  pointer-events: none;
 }
 
 .festivals-header {
+  position: relative;
+  z-index: 1;
   text-align: center;
 }
 
@@ -2779,7 +2796,7 @@ html[lang='hi'] .hero-title {
   font-weight: 700;
   letter-spacing: 0.35em;
   text-transform: uppercase;
-  color: var(--fs-saffron);
+  color: var(--gold-main);
   margin-bottom: 0.75rem;
 }
 
@@ -2794,7 +2811,7 @@ html[lang='hi'] .hero-title {
   font-weight: 700;
   letter-spacing: 0.03em;
   margin-bottom: 1.25rem;
-  background: linear-gradient(135deg, var(--fs-saffron) 0%, var(--fs-maroon) 100%);
+  background: linear-gradient(to bottom, var(--gold-light) 0%, var(--gold-main) 50%, var(--gold-dark) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -2812,28 +2829,30 @@ html[lang='hi'] .hero-title {
   height: 2px;
   width: 5rem;
   border-radius: 999px;
-  background: linear-gradient(90deg, transparent, rgba(234, 88, 12, 0.35));
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.5));
 }
 
 .festivals-divider-line:last-child {
-  background: linear-gradient(90deg, rgba(234, 88, 12, 0.35), transparent);
+  background: linear-gradient(90deg, rgba(212, 175, 55, 0.5), transparent);
 }
 
 .festivals-divider-dot {
   width: 10px;
   height: 10px;
   border-radius: 3px;
-  background: var(--fs-saffron);
+  background: var(--gold-main);
   transform: rotate(45deg);
 }
 
 .festivals-divider-dot.small {
   width: 7px;
   height: 7px;
-  background: var(--fs-maroon);
+  background: var(--gold-light);
 }
 
 .festivals-grid {
+  position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1.5rem;
@@ -2859,8 +2878,10 @@ html[lang='hi'] .hero-title {
   padding: 1.75rem;
   border-radius: 1rem;
   border: 1px solid var(--fs-card-border);
-  background: #fff;
-  box-shadow: 0 10px 30px -10px rgba(234, 88, 12, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+  background: rgba(30, 8, 8, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3);
   text-decoration: none;
   color: inherit;
   overflow: hidden;
@@ -2869,8 +2890,8 @@ html[lang='hi'] .hero-title {
 
 .festival-card:hover {
   transform: translateY(-2px);
-  border-color: #fde68a;
-  box-shadow: 0 20px 40px -15px rgba(234, 88, 12, 0.12);
+  border-color: var(--gold-main);
+  box-shadow: 0 20px 40px -15px rgba(212, 175, 55, 0.2);
 }
 
 .festival-card-wide {
@@ -2888,8 +2909,8 @@ html[lang='hi'] .hero-title {
   top: -1rem;
   right: -1rem;
   font-size: 6rem;
-  color: var(--fs-saffron);
-  opacity: 0.05;
+  color: var(--gold-main);
+  opacity: 0.07;
   transition: transform 0.5s ease;
 }
 
@@ -2906,9 +2927,9 @@ html[lang='hi'] .hero-title {
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: var(--fs-saffron-light);
-  color: var(--fs-saffron);
-  border: 1px solid rgba(234, 88, 12, 0.1);
+  background: var(--fs-gold-tint);
+  color: var(--gold-main);
+  border: 1px solid rgba(212, 175, 55, 0.3);
   font-size: 1.15rem;
   margin-bottom: 1.25rem;
 }
@@ -2930,7 +2951,7 @@ html[lang='hi'] .hero-title {
   font-family: var(--font-cinzel);
   font-size: 1.5rem;
   font-weight: 600;
-  color: var(--fs-text-dark);
+  color: var(--fs-text-light);
   margin-bottom: 0.15rem;
 }
 
@@ -2951,7 +2972,7 @@ html[lang='hi'] .hero-title {
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: var(--fs-saffron);
+  color: var(--gold-main);
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
@@ -2959,7 +2980,7 @@ html[lang='hi'] .hero-title {
 }
 
 .festival-card:hover .festival-card-link {
-  color: var(--fs-maroon);
+  color: var(--gold-light);
   gap: 0.55rem;
 }
 
@@ -2976,9 +2997,9 @@ html[lang='hi'] .hero-title {
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: var(--fs-saffron);
-  background: var(--fs-saffron-light);
-  border: 1px solid rgba(234, 88, 12, 0.2);
+  color: var(--gold-light);
+  background: var(--fs-gold-tint);
+  border: 1px solid rgba(212, 175, 55, 0.3);
   border-radius: 4px;
   padding: 0.3rem 0.6rem;
   margin-bottom: 0.6rem;
@@ -2989,7 +3010,7 @@ html[lang='hi'] .hero-title {
   z-index: 1;
   font-size: 1.1rem;
   font-weight: 700;
-  color: var(--fs-text-dark);
+  color: var(--fs-text-light);
 }
 
 .festival-vrat-text {
@@ -3012,7 +3033,7 @@ html[lang='hi'] .hero-title {
   gap: 0.75rem;
   margin-bottom: 1.25rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid #f1eee9;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .festival-header-icon {
@@ -3027,18 +3048,18 @@ html[lang='hi'] .hero-title {
 }
 
 .festival-header-icon-red {
-  background: #fef2f2;
-  color: #dc2626;
+  background: rgba(220, 38, 38, 0.15);
+  color: #f87171;
 }
 
 .festival-header-icon-amber {
-  background: #fffbeb;
-  color: #d97706;
+  background: var(--fs-gold-tint);
+  color: var(--gold-light);
 }
 
 .festival-header-icon-purple {
-  background: #faf5ff;
-  color: #9333ea;
+  background: rgba(168, 85, 247, 0.15);
+  color: #c084fc;
 }
 
 .festival-section-title {
@@ -3046,18 +3067,18 @@ html[lang='hi'] .hero-title {
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--fs-text-dark);
+  color: var(--fs-text-light);
 }
 
 .festival-featured-box {
   position: relative;
   overflow: hidden;
-  background: linear-gradient(135deg, #fff7ed, #fffbeb);
-  border: 1px solid rgba(234, 88, 12, 0.25);
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.14), rgba(153, 122, 21, 0.08));
+  border: 1px solid rgba(212, 175, 55, 0.3);
   border-radius: 0.75rem;
   padding: 1.25rem;
   margin-bottom: 1.25rem;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.04);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.15);
 }
 
 .festival-featured-glow {
@@ -3066,7 +3087,7 @@ html[lang='hi'] .hero-title {
   right: 0;
   width: 8rem;
   height: 8rem;
-  background: rgba(253, 186, 116, 0.35);
+  background: rgba(212, 175, 55, 0.3);
   border-radius: 50%;
   filter: blur(48px);
 }
@@ -3084,7 +3105,7 @@ html[lang='hi'] .hero-title {
   font-family: var(--font-cinzel);
   font-size: 1.4rem;
   font-weight: 700;
-  color: var(--fs-maroon);
+  color: var(--gold-light);
 }
 
 .festival-featured-countdown {
@@ -3094,7 +3115,7 @@ html[lang='hi'] .hero-title {
   gap: 0.5rem;
   font-size: 0.85rem;
   font-weight: 700;
-  color: var(--fs-saffron);
+  color: var(--gold-main);
 }
 
 .festival-pulse-dot {
@@ -3108,7 +3129,7 @@ html[lang='hi'] .hero-title {
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  background: #fb923c;
+  background: var(--gold-light);
   opacity: 0.75;
   animation: festivalPing 1.6s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
@@ -3119,7 +3140,7 @@ html[lang='hi'] .hero-title {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: var(--fs-saffron);
+  background: var(--gold-main);
 }
 
 @keyframes festivalPing {
@@ -3134,18 +3155,18 @@ html[lang='hi'] .hero-title {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #fff;
-  border: 1px solid rgba(234, 88, 12, 0.15);
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(212, 175, 55, 0.3);
   border-radius: 0.75rem;
   padding: 0.6rem 1.1rem;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .festival-featured-day {
   font-size: 1.5rem;
   font-weight: 800;
   line-height: 1;
-  color: var(--fs-text-dark);
+  color: var(--fs-text-light);
 }
 
 .festival-featured-month {
@@ -3153,7 +3174,7 @@ html[lang='hi'] .hero-title {
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--fs-saffron);
+  color: var(--gold-main);
   margin-top: 0.25rem;
 }
 
@@ -3174,7 +3195,7 @@ html[lang='hi'] .hero-title {
 }
 
 .festival-list-item:hover {
-  background: var(--fs-bg-cream);
+  background: rgba(212, 175, 55, 0.08);
   border-color: var(--fs-card-border);
   transform: translateX(4px);
 }
@@ -3189,14 +3210,14 @@ html[lang='hi'] .hero-title {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--fs-saffron);
+  background: var(--gold-main);
   flex-shrink: 0;
 }
 
 .festival-list-name {
   font-size: 0.92rem;
   font-weight: 600;
-  color: var(--fs-text-dark);
+  color: var(--fs-text-light);
 }
 
 .festival-list-date {
@@ -3208,16 +3229,16 @@ html[lang='hi'] .hero-title {
 
 .festival-list-divider {
   height: 1px;
-  background: #f1eee9;
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .festival-view-all-btn {
   width: 100%;
   margin-top: auto;
   padding: 0.9rem;
-  border: 2px solid var(--fs-saffron-light);
-  background: rgba(255, 237, 213, 0.4);
-  color: var(--fs-saffron);
+  border: 2px solid rgba(212, 175, 55, 0.3);
+  background: var(--fs-gold-tint);
+  color: var(--gold-light);
   border-radius: 0.75rem;
   font-size: 0.82rem;
   font-weight: 700;
@@ -3232,8 +3253,8 @@ html[lang='hi'] .hero-title {
 }
 
 .festival-view-all-btn:hover {
-  background: var(--fs-saffron-light);
-  border-color: #fdba74;
+  background: rgba(212, 175, 55, 0.22);
+  border-color: var(--gold-main);
 }
 
 .festival-planet-mini-card {
@@ -3251,21 +3272,21 @@ html[lang='hi'] .hero-title {
 }
 
 .festival-planet-sun {
-  background: rgba(255, 237, 213, 0.4);
+  background: var(--fs-gold-tint);
   border: 1px solid var(--fs-card-border);
 }
 
 .festival-planet-sun:hover {
-  border-color: #fdba74;
+  border-color: var(--gold-main);
 }
 
 .festival-planet-moon {
-  background: rgba(239, 246, 255, 0.5);
-  border: 1px solid #dbeafe;
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.25);
 }
 
 .festival-planet-moon:hover {
-  border-color: #93c5fd;
+  border-color: #60a5fa;
 }
 
 .festival-planet-mini-left {
@@ -3278,22 +3299,22 @@ html[lang='hi'] .hero-title {
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  background: #fff;
+  background: rgba(0, 0, 0, 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 0.85rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .festival-planet-mini-icon-sun {
   border: 1px solid var(--fs-card-border);
-  color: var(--fs-saffron);
+  color: var(--gold-main);
 }
 
 .festival-planet-mini-icon-moon {
-  border: 1px solid #dbeafe;
-  color: #3b82f6;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  color: #60a5fa;
 }
 
 .festival-planet-mini-label {
@@ -3301,14 +3322,14 @@ html[lang='hi'] .hero-title {
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #6b7280;
+  color: var(--fs-text-muted);
 }
 
 .festival-planet-mini-value {
   font-family: var(--font-cinzel);
   font-size: 1.15rem;
   font-weight: 700;
-  color: var(--fs-maroon);
+  color: var(--gold-light);
 }
 
 .festival-service-list {
@@ -3324,10 +3345,10 @@ html[lang='hi'] .hero-title {
   padding: 0.85rem 0.9rem;
   border-radius: 0.75rem;
   border: 1px solid var(--fs-card-border);
-  background: #fff;
+  background: rgba(0, 0, 0, 0.2);
   font-size: 0.88rem;
   font-weight: 600;
-  color: var(--fs-text-dark);
+  color: var(--fs-text-light);
   text-decoration: none;
   transition: border-color 0.2s ease, background 0.2s ease;
 }
@@ -3339,24 +3360,24 @@ html[lang='hi'] .hero-title {
 }
 
 .festival-service-item span i {
-  color: var(--fs-saffron);
+  color: var(--gold-main);
   width: 1.1rem;
   text-align: center;
 }
 
 .festival-service-item > i {
   font-size: 0.65rem;
-  color: #9ca3af;
+  color: rgba(255, 255, 255, 0.35);
   transition: transform 0.3s ease, color 0.2s ease;
 }
 
 .festival-service-item:hover {
-  border-color: #fdba74;
-  background: var(--fs-bg-cream);
+  border-color: var(--gold-main);
+  background: var(--fs-gold-tint);
 }
 
 .festival-service-item:hover > i {
-  color: var(--fs-saffron);
+  color: var(--gold-main);
   transform: translateX(3px);
 }
 
@@ -3364,8 +3385,8 @@ html[lang='hi'] .hero-title {
   margin-top: 0.35rem;
   padding: 0.95rem;
   border-radius: 0.75rem;
-  background: linear-gradient(135deg, var(--fs-saffron), #c2410c);
-  color: #fff;
+  background: linear-gradient(145deg, var(--gold-light), var(--gold-main), var(--gold-dark));
+  color: var(--bg-deep);
   font-size: 0.95rem;
   font-weight: 700;
   text-decoration: none;
@@ -3373,14 +3394,14 @@ html[lang='hi'] .hero-title {
   align-items: center;
   justify-content: center;
   gap: 0.6rem;
-  box-shadow: 0 8px 20px -6px rgba(234, 88, 12, 0.5);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  box-shadow: 0 8px 20px -6px rgba(212, 175, 55, 0.5);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
 }
 
 .festival-cta-button:hover {
-  background: linear-gradient(135deg, #f97316, var(--fs-saffron));
+  filter: brightness(1.08);
   transform: translateY(-2px);
-  box-shadow: 0 12px 25px -6px rgba(234, 88, 12, 0.6);
+  box-shadow: 0 12px 25px -6px rgba(212, 175, 55, 0.6);
 }
 
 @keyframes pulseDot {
