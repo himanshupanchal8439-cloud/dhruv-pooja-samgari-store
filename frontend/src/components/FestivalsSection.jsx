@@ -92,14 +92,18 @@ export default function FestivalsSection() {
 
         <div className="festivals-grid">
           <Link href="/panchang" className="festival-card">
-            <i className="fa-solid fa-moon festival-card-icon" />
+            <div className="festival-card-icon-badge">
+              <i className="fa-solid fa-moon festival-card-icon" />
+            </div>
             <h3>{t('panchangCardTitle')}</h3>
             <p className="festival-card-value">{data.tithi}</p>
             <span className="festival-card-link">{t('viewFullPanchang')} →</span>
           </Link>
 
           <div className="festival-card">
-            <i className="fa-solid fa-calendar-days festival-card-icon" />
+            <div className="festival-card-icon-badge">
+              <i className="fa-solid fa-calendar-days festival-card-icon" />
+            </div>
             <h3>{t('calendarCardTitle')}</h3>
             <p className="festival-card-value">
               {t('vikramSamvat')} {data.vikramSamvat}
@@ -107,14 +111,18 @@ export default function FestivalsSection() {
           </div>
 
           <div className="festival-card">
-            <i className="fa-solid fa-hands-praying festival-card-icon" />
+            <div className="festival-card-icon-badge">
+              <i className="fa-solid fa-hands-praying festival-card-icon" />
+            </div>
             <h3>{t('muhuratCardTitle')}</h3>
-            <p className="festival-card-value">{data.abhijit || t('notObservedBudhvaar')}</p>
             <span className="festival-card-hint">{t('abhijitLabel')}</span>
+            <p className="festival-card-value">{data.abhijit || t('notObservedBudhvaar')}</p>
           </div>
 
           <div className="festival-card">
-            <i className="fa-solid fa-om festival-card-icon" />
+            <div className="festival-card-icon-badge">
+              <i className="fa-solid fa-om festival-card-icon" />
+            </div>
             <h3>{t('vratCardTitle')}</h3>
             <p className="festival-card-value">
               {data.vrat ? t(data.vrat.key) : t('noMajorVratToday')}
@@ -122,7 +130,9 @@ export default function FestivalsSection() {
           </div>
 
           <div className="festival-card festival-card-wide">
-            <i className="fa-solid fa-sparkles festival-card-icon" />
+            <div className="festival-card-icon-badge">
+              <i className="fa-solid fa-gift festival-card-icon" />
+            </div>
             <h3>{t('festivalsCardTitle')}</h3>
             {data.next ? (
               <>
@@ -145,18 +155,24 @@ export default function FestivalsSection() {
           </div>
 
           <div className="festival-card">
-            <i className="fa-solid fa-globe festival-card-icon" />
+            <div className="festival-card-icon-badge">
+              <i className="fa-solid fa-globe festival-card-icon" />
+            </div>
             <h3>{t('planetsCardTitle')}</h3>
-            <p className="festival-card-value">
-              {t('sunRashi')}: <strong>{data.sunRashi}</strong>
-            </p>
-            <p className="festival-card-value">
-              {t('moonRashi')}: <strong>{data.moonRashi}</strong>
-            </p>
+            <div className="festival-planet-row">
+              <span className="festival-card-hint">{t('sunRashi')}</span>
+              <span className="festival-card-value">{data.sunRashi}</span>
+            </div>
+            <div className="festival-planet-row">
+              <span className="festival-card-hint">{t('moonRashi')}</span>
+              <span className="festival-card-value">{data.moonRashi}</span>
+            </div>
           </div>
 
           <div className="festival-card festival-card-wide">
-            <i className="fa-solid fa-star-and-crescent festival-card-icon" />
+            <div className="festival-card-icon-badge">
+              <i className="fa-solid fa-star-and-crescent festival-card-icon" />
+            </div>
             <h3>{t('jyotishCardTitle')}</h3>
             <div className="festival-jyotish-links">
               <Link href="/kundli">{t('janamKundli')}</Link>
