@@ -1,6 +1,7 @@
 import GaneshaHero from '../components/GaneshaHero';
 import HomeSections from '../components/HomeSections';
 import AstrologySection from '../components/AstrologySection';
+import FestivalsSection from '../components/FestivalsSection';
 import PanchangSection from '../components/PanchangSection';
 import AwardsSection from '../components/AwardsSection';
 
@@ -26,6 +27,7 @@ export default async function Home() {
       <GaneshaHero />
       <HomeSections categories={categories} products={products} />
       <AstrologySection />
+      <FestivalsSection />
       <PanchangSection />
       <AwardsSection />
     </>

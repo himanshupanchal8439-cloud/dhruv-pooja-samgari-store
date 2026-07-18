@@ -2648,6 +2648,7 @@ html[lang='hi'] .hero-title {
 /* Panchang / Muhurat */
 .panchang-section {
   background: var(--color-bg);
+  scroll-margin-top: 7rem;
 }
 
 .panchang-section .sacred-heading h2 {
@@ -2751,6 +2752,116 @@ html[lang='hi'] .hero-title {
   text-align: center;
   font-size: 0.82rem;
   color: var(--color-muted);
+}
+
+/* Festivals & Jyotish home section */
+.festivals-section {
+  background: var(--color-surface, #fff);
+  padding-block: 1rem;
+}
+
+.festivals-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
+
+.festival-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 1.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-bg, #fff);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+a.festival-card:hover {
+  border-color: var(--gold-main);
+  transform: translateY(-3px);
+}
+
+.festival-card-wide {
+  grid-column: span 2;
+}
+
+@media (max-width: 640px) {
+  .festival-card-wide {
+    grid-column: span 1;
+  }
+}
+
+.festival-card-icon {
+  color: var(--gold-dark);
+  font-size: 1.4rem;
+  margin-bottom: 0.4rem;
+}
+
+.festival-card h3 {
+  font-family: var(--font-cinzel);
+  font-size: 1.05rem;
+}
+
+.festival-card-value {
+  font-size: 0.95rem;
+  color: var(--color-text);
+}
+
+.festival-card-hint {
+  font-size: 0.78rem;
+  color: var(--color-text-muted, #888);
+}
+
+.festival-card-link {
+  margin-top: 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--gold-dark);
+}
+
+.festival-upcoming-list {
+  list-style: none;
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.festival-upcoming-list li {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px dashed var(--color-border);
+}
+
+.festival-upcoming-list li:last-child {
+  border-bottom: none;
+}
+
+.festival-jyotish-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.5rem;
+}
+
+.festival-jyotish-links a {
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  font-size: 0.85rem;
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.festival-jyotish-links a:hover {
+  border-color: var(--gold-main);
+  color: var(--gold-dark);
 }
 
 @keyframes pulseDot {
