@@ -2649,6 +2649,13 @@ html[lang='hi'] .hero-title {
 .panchang-section {
   background: var(--color-bg);
   scroll-margin-top: 7rem;
+  min-height: 75vh;
+  display: flex;
+  align-items: center;
+}
+
+.panchang-section .section {
+  width: 100%;
 }
 
 .panchang-section .sacred-heading h2 {

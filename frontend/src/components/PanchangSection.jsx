@@ -79,6 +79,14 @@ export default function PanchangSection() {
   }
 
   useEffect(() => {
+    // This section now also serves as the standalone /panchang page. Next.js's
+    // scroll-to-top on navigation doesn't always fire reliably, so force it —
+    // otherwise a user clicking in from far down another page lands scrolled
+    // partway down (sometimes as far as the footer).
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     // If the user already granted permission earlier, use it silently (no popup)
     if (navigator.permissions?.query) {
       navigator.permissions
