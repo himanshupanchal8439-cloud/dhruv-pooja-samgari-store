@@ -29,3 +29,7 @@ services:
         sync: false
       - key: ADMIN_NOTIFY_EMAIL
         sync: false
+      - key: FRONTEND_URL
+        sync: false
+      - key: REVALIDATE_SECRET
+        sync: false

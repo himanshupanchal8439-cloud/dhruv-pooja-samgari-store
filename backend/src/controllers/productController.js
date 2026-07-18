@@ -1,4 +1,5 @@
 const Product = require('../models/Product');
+const revalidateFrontend = require('../utils/revalidateFrontend');
 
 async function listProducts(req, res, next) {
   try {
@@ -38,6 +39,7 @@ async function getProduct(req, res, next) {
 async function createProduct(req, res, next) {
   try {
     const product = await Product.create(req.body);
+    revalidateFrontend(['/', '/products', `/products/${product.slug}`]);
     res.status(201).json(product);
   } catch (err) {
     next(err);
@@ -48,6 +50,7 @@ async function updateProduct(req, res, next) {
   try {
     const product = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
     if (!product) return res.status(404).json({ message: 'Product not found' });
+    revalidateFrontend(['/', '/products', `/products/${product.slug}`]);
     res.json(product);
   } catch (err) {
     next(err);
@@ -58,6 +61,7 @@ async function deleteProduct(req, res, next) {
   try {
     const product = await Product.findByIdAndUpdate(req.params.id, { isActive: false }, { new: true });
     if (!product) return res.status(404).json({ message: 'Product not found' });
+    revalidateFrontend(['/', '/products', `/products/${product.slug}`]);
     res.json({ message: 'Product deactivated' });
   } catch (err) {
     next(err);

@@ -1,5 +1,6 @@
 const Category = require('../models/Category');
 const Product = require('../models/Product');
+const revalidateFrontend = require('../utils/revalidateFrontend');
 
 async function listCategories(req, res, next) {
   try {
@@ -18,6 +19,7 @@ async function listCategories(req, res, next) {
 async function createCategory(req, res, next) {
   try {
     const category = await Category.create(req.body);
+    revalidateFrontend(['/', '/products']);
     res.status(201).json(category);
   } catch (err) {
     next(err);
@@ -28,6 +30,7 @@ async function updateCategory(req, res, next) {
   try {
     const category = await Category.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
     if (!category) return res.status(404).json({ message: 'Category not found' });
+    revalidateFrontend(['/', '/products']);
     res.json(category);
   } catch (err) {
     next(err);
@@ -37,6 +40,7 @@ async function updateCategory(req, res, next) {
 async function deleteCategory(req, res, next) {
   try {
     await Category.findByIdAndDelete(req.params.id);
+    revalidateFrontend(['/', '/products']);
     res.json({ message: 'Category deleted' });
   } catch (err) {
     next(err);
