@@ -1,5 +1,6 @@
 const Review = require('../models/Review');
 const Product = require('../models/Product');
+const revalidateFrontend = require('../utils/revalidateFrontend');
 
 async function recalculateRating(productId) {
   const stats = await Review.aggregate([
@@ -41,6 +42,7 @@ async function createReview(req, res, next) {
     });
 
     await recalculateRating(product._id);
+    revalidateFrontend([`/products/${product.slug}`]);
     res.status(201).json(review);
   } catch (err) {
     next(err);
